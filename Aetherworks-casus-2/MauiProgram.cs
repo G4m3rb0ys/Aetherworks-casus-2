@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Aetherworks_casus_2.Data;
 
 namespace Aetherworks_casus_2
 {
@@ -18,6 +19,8 @@ namespace Aetherworks_casus_2
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            // Register services
+            builder.Services.AddSingleton<LocalDbService>();
 
             return builder.Build();
         }
