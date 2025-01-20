@@ -10,7 +10,7 @@ namespace Aetherworks_casus_2.Data
 {
     public class LocalDbService
     {
-        private readonly SQLiteConnection _connection;
+        public readonly SQLiteConnection _connection;
 
         public LocalDbService()
         {
