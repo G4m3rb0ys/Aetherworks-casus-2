@@ -1,96 +1,128 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage 
     x:Class="Aetherworks_casus_2.MVVM.Views.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Main Page">
+    Title="Main Page"
+    BackgroundColor="#ADD8E6">
 
-    <!-- Grid verdeelt het scherm in twee rijen:
-         1) Hoofdinhoud
-         2) Nav-balk (onderaan) -->
-    <Grid RowDefinitions="*,Auto">
+    <Grid>
 
-        <!-- (1) Hoofdinhoud in rij 0 -->
-        <ScrollView Grid.Row="0">
-            <VerticalStackLayout Padding="20" Spacing="20">
+        <Grid x:Name="SideMenu"
+              ZIndex="1"
+              WidthRequest="220"
+              BackgroundColor="LightGray"
+              Padding="20"
+              HorizontalOptions="Start"
+              VerticalOptions="FillAndExpand">
 
-                <!-- Eerstvolgende activiteit -->
-                <Label Text="Eerstvolgende activiteit"
-                       FontAttributes="Bold"
-                       FontSize="18"
-                       HorizontalOptions="Center" />
-
-                <Frame BorderColor="Gray" Padding="10">
-                    <VerticalStackLayout>
-                        <!-- Voorlopig statische teksten -->
-                        <Label Text="Naam van activiteit (statisch)"
-                               FontAttributes="Bold" FontSize="16" />
-                        <Label Text="12 feb 2025 14:00"
-                               FontSize="13" />
-                        <Label Text="Hier komt eventueel een beschrijving..."
-                               FontSize="13" />
-                    </VerticalStackLayout>
-                </Frame>
-
-                <!-- Komende activiteiten -->
-                <Label Text="Komende activiteiten"
-                       FontAttributes="Bold"
-                       FontSize="18"
-                       HorizontalOptions="Center" />
-
-                <!-- Enkele statische 'activiteiten' in een CollectionView -->
-                <CollectionView>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Frame BorderColor="LightGray" Padding="10" Margin="0,5">
-                                <VerticalStackLayout>
-                                    <Label Text="Activiteit X (statisch)"
-                                           FontAttributes="Bold" FontSize="16" />
-                                    <Label Text="15 feb 2025 10:00"
-                                           FontSize="13" />
-                                    <Label Text="Beschrijving van deze activiteit..."
-                                           FontSize="13" />
-                                </VerticalStackLayout>
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                    <!-- Tip: In een echte app zet je ItemsSource, maar we houden 't statisch -->
-                    <CollectionView.EmptyView>
-                        <Label Text="Geen activiteiten."
-                               HorizontalOptions="Center" 
-                               VerticalOptions="CenterAndExpand" />
-                    </CollectionView.EmptyView>
-                </CollectionView>
-
+            <VerticalStackLayout Spacing="20">
+                <Label Text="Menu 1" FontAttributes="Bold" TextColor="Black" />
+                <Label Text="Menu 2" FontAttributes="Bold" TextColor="Black" />
+                <Label Text="Menu 3" FontAttributes="Bold" TextColor="Black" />
             </VerticalStackLayout>
-        </ScrollView>
+        </Grid>
 
-        <!-- (2) Navbar onderaan in rij 1 -->
-        <StackLayout 
-            Grid.Row="1"
-            Orientation="Horizontal"
-            HeightRequest="50"
-            BackgroundColor="#E0E0E0"
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="End">
+        <Grid x:Name="MainContainer"
+              ZIndex="2"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand"
+              BackgroundColor="White"
+              TranslationX="0">
 
-            <Label Text="Home"
-                   HorizontalOptions="CenterAndExpand"
-                   VerticalOptions="Center"
-                   FontAttributes="Bold"/>
-            <Label Text="Activities"
-                   HorizontalOptions="CenterAndExpand"
-                   VerticalOptions="Center" />
-            <Label Text="Events"
-                   HorizontalOptions="CenterAndExpand"
-                   VerticalOptions="Center" />
-            <Label Text="Settings"
-                   HorizontalOptions="CenterAndExpand"
-                   VerticalOptions="Center" />
-            <Label Text="Profile"
-                   HorizontalOptions="CenterAndExpand"
-                   VerticalOptions="Center" />
-        </StackLayout>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" HeightRequest="50" BackgroundColor="#dddddd">
+
+                <Image Source="menu_icon.png"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"
+                       Margin="10,0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnHamburgerTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Label Text="Mijn App"
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="Center"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="Black" />
+
+                <Image Source="profile_icon.png"
+                       HorizontalOptions="End"
+                       VerticalOptions="Center"
+                       Margin="10,0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnProfileTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+            </Grid>
+
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Padding="20" Spacing="20">
+
+                    <Label Text="Eerstvolgende activiteit"
+                           FontAttributes="Bold"
+                           FontSize="18"
+                           HorizontalOptions="Center"
+                           TextColor="Black" />
+
+                    <Frame BorderColor="Gray" Padding="10" BackgroundColor="Red">
+                        <VerticalStackLayout>
+                            <Label Text="Naam van activiteit (statisch)"
+                                   FontAttributes="Bold" 
+                                   FontSize="16"
+                                   TextColor="Black" />
+                            <Label Text="12 feb 2025 14:00"
+                                   FontSize="13"
+                                   TextColor="Black" />
+                            <Label Text="Hier komt eventueel een beschrijving..."
+                                   FontSize="13"
+                                   TextColor="Black" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Label Text="Komende activiteiten"
+                           FontAttributes="Bold"
+                           FontSize="18"
+                           HorizontalOptions="Center"
+                           TextColor="Black" />
+
+                    <CollectionView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame BorderColor="LightGray" Padding="10" Margin="0,5"
+                                       BackgroundColor="Red">
+                                    <VerticalStackLayout>
+                                        <Label Text="Activiteit X (statisch)"
+                                               FontAttributes="Bold" FontSize="16"
+                                               TextColor="Black" />
+                                        <Label Text="15 feb 2025 10:00"
+                                               FontSize="13"
+                                               TextColor="Black" />
+                                        <Label Text="Beschrijving van deze activiteit..."
+                                               FontSize="13"
+                                               TextColor="Black" />
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        <CollectionView.EmptyView>
+                            <Label Text="Geen activiteiten."
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="CenterAndExpand"
+                                   TextColor="Black" />
+                        </CollectionView.EmptyView>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
 
     </Grid>
 </ContentPage>
