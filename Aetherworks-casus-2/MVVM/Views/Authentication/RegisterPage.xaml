@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Aetherworks_casus_2.MVVM.Views.Authentication.RegisterPage"
+             Title="Register"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="#E91E63">
+    <VerticalStackLayout Padding="30" Spacing="25">
+        <Frame BackgroundColor="#FFFFFF" Padding="20" CornerRadius="10">
+            <VerticalStackLayout Spacing="15">
+                <Label 
+                    Text="Please fill in you info"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
+                <Label 
+                    Text="Email"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
+                <Entry
+                    Placeholder="Email"
+                    x:Name="EmailEntry"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center"
+                    MinimumWidthRequest="200" />
+                <Label 
+                    Text="UserName"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
+                <Entry
+                    Placeholder="Username"
+                    x:Name="UsernameEntry"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center"
+                    MinimumWidthRequest="200" />
+                <Label 
+                    Text="Name"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
+                <Entry
+                    Placeholder="Name"
+                    x:Name="NameEntry"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center"
+                    MinimumWidthRequest="200" />
+                <Label 
+                    Text="Phone Number"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
+                <Entry
+                    Placeholder="0612345678"
+                    x:Name="PhoneEntry"
+                    Keyboard="Numeric"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center"
+                    MinimumWidthRequest="200" />
+                <Label 
+                    Text="Password"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
+                <Entry 
+                    Placeholder="PassWord" 
+                    IsPassword="True" 
+                    x:Name="PasswordEntry"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center"
+                    MinimumWidthRequest="200"/>
+                <Label 
+                    Text="Confirm Password"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
+                <Entry 
+                    Placeholder="Confirm Password" 
+                    IsPassword="True" 
+                    x:Name="ConfirmPasswordEntry"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center"
+                    MinimumWidthRequest="200"/>
+                <Button
+                    Text="Register"
+                    Clicked="OnRegisterClicked"
+                    TextColor="White"
+                    BackgroundColor="#6A1B9A"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    CornerRadius="10"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center" />
+            </VerticalStackLayout>
+        </Frame>
+
+    </VerticalStackLayout>
+</ContentPage>

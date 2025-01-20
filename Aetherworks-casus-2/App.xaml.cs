@@ -5,7 +5,7 @@
         public App()
         {
             InitializeComponent();
-            MainPage = new MVVM.Views.MainPage();
+            MainPage = new MVVM.Views.Navigationbar();
         }
     }
 }
