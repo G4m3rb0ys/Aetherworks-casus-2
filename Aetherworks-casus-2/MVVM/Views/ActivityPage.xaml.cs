@@ -5,9 +5,11 @@ namespace Aetherworks_casus_2.MVVM.Views;
 
 public partial class ActivityPage : ContentPage
 {
-	public ActivityPage(LocalDbService dbService)
+	public ActivityPage()
 	{
-		InitializeComponent();
+        LocalDbService dbService = new LocalDbService();
+
+        InitializeComponent();
         BindingContext = new ActivityViewModel(dbService);
     }
 }

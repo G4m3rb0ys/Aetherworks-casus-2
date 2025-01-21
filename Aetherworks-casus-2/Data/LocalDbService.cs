@@ -11,6 +11,7 @@ namespace Aetherworks_casus_2.Data
     public class LocalDbService
     {
         public readonly SQLiteConnection _connection;
+        public string? statusMessage;
 
         public LocalDbService()
         {
@@ -26,6 +27,18 @@ namespace Aetherworks_casus_2.Data
             _connection.CreateTable<SuggestionLiked>();
             _connection.CreateTable<VictuzActivity>();
             _connection.CreateTable<VictuzLocation>();
+        }
+        public async Task<User> GetUser(int id)
+        {
+            try
+            {
+                return _connection.Table<User>().FirstOrDefault(t => t.Id == id);
+            }
+            catch (Exception e)
+            {
+                statusMessage = $"Error: {e.Message}";
+            }
+            return null;
         }
     }
 }

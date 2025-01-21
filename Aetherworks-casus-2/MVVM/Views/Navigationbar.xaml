@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Aetherworks_casus_2.MVVM.Views.Navigationbar"
+             xmlns:local="clr-namespace:Aetherworks_casus_2.MVVM.Views"
+             xmlns:authentication="clr-namespace:Aetherworks_casus_2.MVVM.Views.Authentication"
+             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+             android:TabbedPage.ToolbarPlacement="Bottom">
+
+
+    <local:MainPage      Title="Main Page" IconImageSource="dotnet_bot.png"/>
+    <local:ActivityPage      Title="Activities " IconImageSource="dotnet_bot.png"/>
+
+
+
+
+</TabbedPage>
