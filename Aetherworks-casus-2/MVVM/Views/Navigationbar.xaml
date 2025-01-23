@@ -9,7 +9,7 @@
 
 
     <local:MainPage      Title="Main Page" IconImageSource="dotnet_bot.png"/>
-    <local:ActivityPage      Title="Activities " IconImageSource="dotnet_bot.png"/>
+    <local:ActivitiesPage      Title="Activities " IconImageSource="dotnet_bot.png"/>
 
 
 
