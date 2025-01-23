@@ -12,6 +12,12 @@ namespace Aetherworks_casus_2.Data
             _localDbService = new LocalDbService();
         }
 
+        public MainActivityService(LocalDbService localDbService)
+        {
+            _localDbService = localDbService;
+        }
+
+
         public List<VictuzActivity> GetAllActivities()
         {
             return _localDbService._connection
