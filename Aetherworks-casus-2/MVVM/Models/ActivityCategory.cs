@@ -12,6 +12,7 @@ namespace Aetherworks_casus_2.MVVM.Models
         MemFree,
         PayAll,
         MemOnlyFree,
-        MemOnlyPay
+        MemOnlyPay,
+        Other
     }
 }

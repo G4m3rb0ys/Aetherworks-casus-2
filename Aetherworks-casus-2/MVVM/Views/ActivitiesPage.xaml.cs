@@ -49,8 +49,7 @@ namespace Aetherworks_casus_2.MVVM.Views
 
         private async void OnCreateActivityTapped(object sender, EventArgs e)
         {
-            // TODO: verwijzing maken naar nieuwe create pagina nadat deze is gemaakt
-            await DisplayAlert("Nieuwe activiteit", "Hier zou je naar CreateActivityPage navigeren", "DIT WORD ZSM TOEGEVOEGD");
+            await Navigation.PushAsync(new CreateActivityPage());
         }
 
         private void OnFilterTapped(object sender, EventArgs e)
