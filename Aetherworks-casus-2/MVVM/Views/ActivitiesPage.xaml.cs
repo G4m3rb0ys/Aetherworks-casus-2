@@ -50,13 +50,13 @@ namespace Aetherworks_casus_2.MVVM.Views
         private async void OnCreateActivityTapped(object sender, EventArgs e)
         {
             // TODO: verwijzing maken naar nieuwe create pagina nadat deze is gemaakt
-            await DisplayAlert("Nieuwe activiteit", "Hier zou je naar CreateActivityPage navigeren DIT WORD ZSM TOEGEVOEGD");
+            await DisplayAlert("Nieuwe activiteit", "Hier zou je naar CreateActivityPage navigeren", "DIT WORD ZSM TOEGEVOEGD");
         }
 
         private void OnFilterTapped(object sender, EventArgs e)
         {
             // TODO: Filter Functionaliteit tovoegen
-            DisplayAlert("Filter", "Hier kun je straks activiteiten filteren (bv. betaalstatus, categorie). DIT MOET NOG TOEGEVOEGD WORDEN");
+            DisplayAlert("Filter", "Hier kun je straks activiteiten filteren (bv. betaalstatus, categorie).",  "DIT MOET NOG TOEGEVOEGD WORDEN");
         }
 
         private void ActivitySearchBar_TextChanged(object sender, TextChangedEventArgs e)
