@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Aetherworks_casus_2.MVVM.Views.CreateActivityPage"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             Title="CreateActivityPage">
+    <VerticalStackLayout Padding="20" Spacing="20">
+
+        <!-- Back Button -->
+        <Button Text="Back to Activities"
+                Clicked="OnBackButtonClicked"
+                HorizontalOptions="Start" />
+
+        <!-- Name -->
+        <Entry x:Name="NameEntry"
+               Placeholder="Activity Name"
+               Keyboard="Text" />
+
+        <!-- Description -->
+        <Editor x:Name="DescriptionEditor"
+                Placeholder="Description"
+                AutoSize="TextChanges" />
+
+        <!-- Date and Time -->
+        <DatePicker x:Name="ActivityDatePicker"
+                    MinimumDate="{x:Static system:DateTime.Now}" />
+        <TimePicker x:Name="ActivityTimePicker" />
+
+        <!-- Location -->
+        <Entry x:Name="LocationEntry"
+               Placeholder="Location"
+               Keyboard="Text" />
+
+        <!-- Category Picker -->
+        <Picker x:Name="CategoryPicker"
+                Title="Select or Create Category"
+                SelectedIndexChanged="OnCategoryPickerSelectedIndexChanged" />
+
+        <!-- Custom Category Entry (hidden by default) -->
+        <Entry x:Name="CustomCategoryEntry"
+               Placeholder="Enter new category"
+               IsVisible="False"
+               Keyboard="Text" />
+
+        <!-- Price -->
+        <Entry x:Name="PriceEntry"
+               Placeholder="Price"
+               Keyboard="Numeric" />
+        <Entry x:Name="MemberPriceEntry"
+               Placeholder="Member Price"
+               Keyboard="Numeric" />
+
+        <!-- Participation Limit -->
+        <Entry x:Name="ParticipationLimitEntry"
+               Placeholder="Participation Limit"
+               Keyboard="Numeric" />
+
+        <!-- Buttons -->
+        <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
+            <Button Text="Create"
+                    BackgroundColor="Green"
+                    TextColor="White"
+                    Clicked="OnCreateButtonClicked" />
+
+            <Button Text="Cancel"
+                    BackgroundColor="Red"
+                    TextColor="White"
+                    Clicked="OnCancelButtonClicked" />
+        </HorizontalStackLayout>
+
+    </VerticalStackLayout>
+</ContentPage>
