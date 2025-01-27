@@ -4,22 +4,21 @@ using System.Linq;
 using Microsoft.Maui.Controls;
 using Aetherworks_casus_2.MVVM.Models;
 using Aetherworks_casus_2.Data;
+using Microsoft.Maui.Storage;
 
 namespace Aetherworks_casus_2.MVVM.Views
 {
     public partial class CreateActivityPage : ContentPage
     {
         private readonly MainActivityService _activityService;
-
-        // Enum values converted to a list
         private ObservableCollection<string> _categories;
+        private string _selectedImagePath;
 
         public CreateActivityPage()
         {
             InitializeComponent();
             _activityService = new MainActivityService();
 
-            // Initialize Categories (add "Custom" option)
             _categories = new ObservableCollection<string>(
                 Enum.GetNames(typeof(ActivityCategory)).ToList()
             );
@@ -34,20 +33,40 @@ namespace Aetherworks_casus_2.MVVM.Views
 
         private void OnCategoryPickerSelectedIndexChanged(object sender, EventArgs e)
         {
-            // Check if "Custom" is selected
             if (CategoryPicker.SelectedItem?.ToString() == "Custom")
             {
-                CustomCategoryEntry.IsVisible = true; // Show the custom category entry
+                CustomCategoryEntry.IsVisible = true;
             }
             else
             {
-                CustomCategoryEntry.IsVisible = false; // Hide it
+                CustomCategoryEntry.IsVisible = false;
+            }
+        }
+
+        private async void OnSelectPhotoClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var result = await FilePicker.PickAsync(new PickOptions
+                {
+                    PickerTitle = "Select an Image",
+                    FileTypes = FilePickerFileType.Images
+                });
+
+                if (result != null)
+                {
+                    _selectedImagePath = result.FullPath;
+                    ActivityImage.Source = ImageSource.FromFile(_selectedImagePath); 
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"Unable to pick a photo: {ex.Message}", "OK");
             }
         }
 
         private async void OnCreateButtonClicked(object sender, EventArgs e)
         {
-            // Validate inputs
             if (string.IsNullOrWhiteSpace(NameEntry.Text) ||
                 string.IsNullOrWhiteSpace(LocationEntry.Text) ||
                 ActivityDatePicker.Date == null ||
@@ -57,7 +76,6 @@ namespace Aetherworks_casus_2.MVVM.Views
                 return;
             }
 
-            // Determine the selected category
             string category;
             if (CategoryPicker.SelectedItem?.ToString() == "Custom")
             {
@@ -68,10 +86,9 @@ namespace Aetherworks_casus_2.MVVM.Views
                 }
                 category = CustomCategoryEntry.Text;
 
-                // Add the new category to the Picker for future use
                 if (!_categories.Contains(category))
                 {
-                    _categories.Insert(_categories.Count - 1, category); // Add before "Custom"
+                    _categories.Insert(_categories.Count - 1, category);
                 }
             }
             else
@@ -79,25 +96,22 @@ namespace Aetherworks_casus_2.MVVM.Views
                 category = CategoryPicker.SelectedItem?.ToString();
             }
 
-            // Create a new activity
             var activity = new VictuzActivity
             {
                 Name = NameEntry.Text,
                 Description = DescriptionEditor.Text,
                 ActivityDate = ActivityDatePicker.Date.Add(ActivityTimePicker.Time),
-                Location = new VictuzLocation { Name = LocationEntry.Text }, // Assuming Location is a separate entity
+                Location = new VictuzLocation { Name = LocationEntry.Text },
                 Category = Enum.TryParse(category, out ActivityCategory result) ? result : ActivityCategory.Other,
                 Price = decimal.TryParse(PriceEntry.Text, out var price) ? price : 0,
                 MemberPrice = decimal.TryParse(MemberPriceEntry.Text, out var memberPrice) ? memberPrice : 0,
                 ParticipationLimit = int.TryParse(ParticipationLimitEntry.Text, out var limit) ? limit : 0,
-                HostId = 1 // Assuming a hardcoded HostId for now
+                HostId = 1,
+                Picture = _selectedImagePath 
             };
 
-            // Save to database
             _activityService.InsertActivity(activity);
             await DisplayAlert("Success", "Activity created successfully!", "OK");
-
-            // Navigate back
             await Navigation.PopAsync();
         }
 

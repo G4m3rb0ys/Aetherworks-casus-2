@@ -70,5 +70,16 @@ namespace Aetherworks_casus_2.MVVM.Views
             foreach (var act in filtered)
                 Activities.Add(act);
         }
+
+        private async void OnActivityTapped(object sender, EventArgs e)
+        {
+            var activity = (sender as Frame)?.BindingContext as VictuzActivity;
+            if (activity != null)
+            {
+                var dbService = new LocalDbService();
+                await Navigation.PushAsync(new ActivityPage(activity, dbService));
+            }
+        }
+
     }
 }

@@ -40,5 +40,20 @@ namespace Aetherworks_casus_2.Data
             }
             return null;
         }
+
+        public void UpdateActivity(VictuzActivity activity)
+        {
+            _connection.Update(activity);
+        }
+
+        public void AddParticipation(Participation participation)
+        {
+            _connection.Insert(participation);
+        }
+
+        public List<Participation> GetParticipationsByActivityId(int activityId)
+        {
+            return _connection.Table<Participation>().Where(p => p.ActivityId == activityId).ToList();
+        }
     }
 }
