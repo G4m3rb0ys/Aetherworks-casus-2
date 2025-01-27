@@ -11,9 +11,7 @@ namespace Aetherworks_casus_2.MVVM.Views
     {
         public ObservableCollection<VictuzActivity> Activities { get; set; }
 
-        private MainActivityService _activityService;
-        private LocalDbService _localDbService;
-
+        private readonly LocalDbService _localDbService;
         private List<VictuzActivity> _allActivities;
 
         public ActivitiesPage()
@@ -23,8 +21,6 @@ namespace Aetherworks_casus_2.MVVM.Views
             BindingContext = this;
 
             _localDbService = new LocalDbService();
-            _activityService = new MainActivityService(_localDbService);
-
             Activities = new ObservableCollection<VictuzActivity>();
             _allActivities = new List<VictuzActivity>();
         }
@@ -32,19 +28,21 @@ namespace Aetherworks_casus_2.MVVM.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            LoadActivities();
+            LoadActivities(); 
         }
 
         private void LoadActivities()
         {
-            var dbActivities = _activityService.GetAllActivities();
+            var dbActivities = _localDbService.GetAllActivities();
             _allActivities = dbActivities.ToList();
 
             Activities.Clear();
             foreach (var act in _allActivities)
+            {
                 Activities.Add(act);
+            }
 
-            ActivitiesCollectionView.ItemsSource = Activities;
+            ActivitiesCollectionView.ItemsSource = Activities; 
         }
 
         private async void OnCreateActivityTapped(object sender, EventArgs e)
@@ -54,8 +52,7 @@ namespace Aetherworks_casus_2.MVVM.Views
 
         private void OnFilterTapped(object sender, EventArgs e)
         {
-            // TODO: Filter Functionaliteit tovoegen
-            DisplayAlert("Filter", "Hier kun je straks activiteiten filteren (bv. betaalstatus, categorie).",  "DIT MOET NOG TOEGEVOEGD WORDEN");
+            DisplayAlert("Filter", "Filter functionality will be added here.", "OK");
         }
 
         private void ActivitySearchBar_TextChanged(object sender, TextChangedEventArgs e)
@@ -68,7 +65,9 @@ namespace Aetherworks_casus_2.MVVM.Views
 
             Activities.Clear();
             foreach (var act in filtered)
+            {
                 Activities.Add(act);
+            }
         }
 
         private async void OnActivityTapped(object sender, EventArgs e)
@@ -76,10 +75,8 @@ namespace Aetherworks_casus_2.MVVM.Views
             var activity = (sender as Frame)?.BindingContext as VictuzActivity;
             if (activity != null)
             {
-                var dbService = new LocalDbService();
-                await Navigation.PushAsync(new ActivityPage(activity, dbService));
+                await Navigation.PushAsync(new ActivityPage(activity, _localDbService));
             }
         }
-
     }
 }

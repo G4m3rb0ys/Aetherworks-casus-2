@@ -10,14 +10,15 @@ namespace Aetherworks_casus_2.MVVM.Views
 {
     public partial class CreateActivityPage : ContentPage
     {
-        private readonly MainActivityService _activityService;
+        private readonly LocalDbService _localDbService;
         private ObservableCollection<string> _categories;
         private string _selectedImagePath;
 
         public CreateActivityPage()
         {
             InitializeComponent();
-            _activityService = new MainActivityService();
+
+            _localDbService = new LocalDbService();
 
             _categories = new ObservableCollection<string>(
                 Enum.GetNames(typeof(ActivityCategory)).ToList()
@@ -33,14 +34,7 @@ namespace Aetherworks_casus_2.MVVM.Views
 
         private void OnCategoryPickerSelectedIndexChanged(object sender, EventArgs e)
         {
-            if (CategoryPicker.SelectedItem?.ToString() == "Custom")
-            {
-                CustomCategoryEntry.IsVisible = true;
-            }
-            else
-            {
-                CustomCategoryEntry.IsVisible = false;
-            }
+            CustomCategoryEntry.IsVisible = CategoryPicker.SelectedItem?.ToString() == "Custom";
         }
 
         private async void OnSelectPhotoClicked(object sender, EventArgs e)
@@ -55,7 +49,7 @@ namespace Aetherworks_casus_2.MVVM.Views
 
                 if (result != null)
                 {
-                    _selectedImagePath = result.FullPath;
+                    _selectedImagePath = result.FullPath; 
                     ActivityImage.Source = ImageSource.FromFile(_selectedImagePath); 
                 }
             }
@@ -88,7 +82,7 @@ namespace Aetherworks_casus_2.MVVM.Views
 
                 if (!_categories.Contains(category))
                 {
-                    _categories.Insert(_categories.Count - 1, category);
+                    _categories.Insert(_categories.Count - 1, category); 
                 }
             }
             else
@@ -106,12 +100,14 @@ namespace Aetherworks_casus_2.MVVM.Views
                 Price = decimal.TryParse(PriceEntry.Text, out var price) ? price : 0,
                 MemberPrice = decimal.TryParse(MemberPriceEntry.Text, out var memberPrice) ? memberPrice : 0,
                 ParticipationLimit = int.TryParse(ParticipationLimitEntry.Text, out var limit) ? limit : 0,
-                HostId = 1,
-                Picture = _selectedImagePath 
+                HostId = 1, // Replace with dynamic host ID if needed
+                Picture = _selectedImagePath // Save the image path
             };
 
-            _activityService.InsertActivity(activity);
+            _localDbService.InsertActivity(activity);
+
             await DisplayAlert("Success", "Activity created successfully!", "OK");
+
             await Navigation.PopAsync();
         }
 

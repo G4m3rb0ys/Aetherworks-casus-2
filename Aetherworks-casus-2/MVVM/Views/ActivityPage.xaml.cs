@@ -24,7 +24,7 @@ public partial class ActivityPage : ContentPage
         ActivityNameLabel.Text = _activity.Name;
         ActivityDescriptionLabel.Text = _activity.Description;
         ActivityDateTimeLabel.Text = $"Date & Time: {_activity.ActivityDate:dd MMM yyyy, HH:mm}";
-        ActivityLocationLabel.Text = $"Location: {_activity.Location?.Name ?? "Unknown"}";
+        ActivityLocationLabel.Text = $"Location: {_dbService.GetLocationById(_activity.LocationId)?.Name ?? "Unknown"}";
 
         if (!string.IsNullOrWhiteSpace(_activity.Picture))
         {
@@ -36,7 +36,7 @@ public partial class ActivityPage : ContentPage
             ActivityImage.IsVisible = false;
         }
 
-        int remainingSpots = _activity.ParticipationLimit - (_activity.Participations?.Count ?? 0);
+        int remainingSpots = _activity.ParticipationLimit - (_dbService.GetParticipationsByActivityId(_activity.Id)?.Count ?? 0);
         if (remainingSpots <= 0)
         {
             ActivityAvailabilityLabel.Text = "This activity is fully booked.";
@@ -55,13 +55,14 @@ public partial class ActivityPage : ContentPage
     {
         await DisplayAlert("Signed Up", "You have successfully signed up for this activity!", "OK");
 
-        _activity.Participations ??= new List<Participation>();
-        _activity.Participations.Add(new Participation
+        var participation = new Participation
         {
             UserId = 1,
             ActivityId = _activity.Id,
             Attend = false
-        });
+        };
+
+        _dbService.AddParticipation(participation);
 
         LoadActivityDetails();
 
