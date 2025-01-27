@@ -27,27 +27,27 @@ public partial class RegisterPage : ContentPage
         }
         else
         {
-            //var loggedInUser = await _db.AddOrUpdateUser(new User 
-            //{
-            //    Username = UsernameEntry.Text,
-            //    CapitalizedUsername = UsernameEntry.Text.ToUpper(),
-            //    Email = EmailEntry.Text,
-            //    CapitalizedEmail = EmailEntry.Text.ToUpper(),
-            //    Name = NameEntry.Text,
-            //    PhoneNumber = PhoneEntry.Text,
-            //    Password = PasswordEntry.Text
-            //});
-            //if (loggedInUser != null) 
-            //{
-            //    Session.LoggedInUser = loggedInUser;
-            //    await DisplayAlert("Success", "Created account successfully\nWelcome!", "OK");
+            var loggedInUser = await _db.AddOrUpdateUser(new User
+            {
+                Username = UsernameEntry.Text,
+                CapitalizedUsername = UsernameEntry.Text.ToUpper(),
+                Email = EmailEntry.Text,
+                CapitalizedEmail = EmailEntry.Text.ToUpper(),
+                Name = NameEntry.Text,
+                PhoneNumber = PhoneEntry.Text,
+                Password = PasswordEntry.Text
+            });
+            if (loggedInUser != null)
+            {
+                SessionService.LoggedInUser = loggedInUser;
+                await DisplayAlert("Success", "Created account successfully\nWelcome!", "OK");
                 App.Current.MainPage = new NavigationPage(new Navigationbar());
-            //}
-            //else
-            //{
-            //    DisplayAlert("Error", _db.statusMessage, "OK");
-            //}
-            return;
+        }
+            else
+        {
+            DisplayAlert("Error", _db.statusMessage, "OK");
+        }
+        return;
         }
     }
 }
