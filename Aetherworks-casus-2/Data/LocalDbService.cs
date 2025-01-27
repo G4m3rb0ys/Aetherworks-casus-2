@@ -22,7 +22,7 @@ namespace Aetherworks_casus_2.Data
 
             if (!File.Exists(DataConstants.DatabasePath))
             {
-                InitializeDatabaseAsync().Wait();
+                InitializeDatabaseAsync();
                 StatusMessage = "Database created.";
             }
         }

@@ -10,7 +10,7 @@ public partial class StartPage : ContentPage
 	{
 		InitializeComponent();
         _db = db;
-        //Session.LoggedInUser = null;
+        SessionService.LoggedInUser = null;
     }
 
 	public void OnLoginClicked(object sender, EventArgs e)
