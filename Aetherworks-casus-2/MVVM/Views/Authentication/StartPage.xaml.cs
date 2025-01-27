@@ -22,4 +22,8 @@ public partial class StartPage : ContentPage
         Navigation.PushAsync(new RegisterPage(_db));
     }
 
+    private void Button_Clicked(object sender, EventArgs e)
+    {
+        DisplayAlert("DB Status", _db.StatusMessage, "OK");
+    }
 }
