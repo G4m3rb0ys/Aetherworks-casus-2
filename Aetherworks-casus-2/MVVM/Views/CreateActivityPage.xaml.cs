@@ -104,7 +104,7 @@ namespace Aetherworks_casus_2.MVVM.Views
                 Picture = _selectedImagePath
             };
 
-            await _localDbService.InsertActivityAsync(activity);
+            await _localDbService.AddOrUpdateActivity(activity);
 
             await DisplayAlert("Success", "Activity created successfully!", "OK");
 

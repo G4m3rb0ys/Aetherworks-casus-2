@@ -33,7 +33,7 @@ namespace Aetherworks_casus_2.MVVM.Views
 
         private async Task LoadActivitiesAsync()
         {
-            var dbActivities = await _localDbService.GetAllActivitiesAsync();
+            var dbActivities = await _localDbService.GetAllActivities();
             _allActivities = dbActivities.ToList();
 
             Activities.Clear();
