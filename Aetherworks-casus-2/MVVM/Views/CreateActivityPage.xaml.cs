@@ -49,8 +49,8 @@ namespace Aetherworks_casus_2.MVVM.Views
 
                 if (result != null)
                 {
-                    _selectedImagePath = result.FullPath; 
-                    ActivityImage.Source = ImageSource.FromFile(_selectedImagePath); 
+                    _selectedImagePath = result.FullPath;
+                    ActivityImage.Source = ImageSource.FromFile(_selectedImagePath);
                 }
             }
             catch (Exception ex)
@@ -82,7 +82,7 @@ namespace Aetherworks_casus_2.MVVM.Views
 
                 if (!_categories.Contains(category))
                 {
-                    _categories.Insert(_categories.Count - 1, category); 
+                    _categories.Insert(_categories.Count - 1, category);
                 }
             }
             else
@@ -101,10 +101,10 @@ namespace Aetherworks_casus_2.MVVM.Views
                 MemberPrice = decimal.TryParse(MemberPriceEntry.Text, out var memberPrice) ? memberPrice : 0,
                 ParticipationLimit = int.TryParse(ParticipationLimitEntry.Text, out var limit) ? limit : 0,
                 HostId = 1, // Replace with dynamic host ID if needed
-                Picture = _selectedImagePath // Save the image path
+                Picture = _selectedImagePath
             };
 
-            _localDbService.InsertActivity(activity);
+            await _localDbService.InsertActivityAsync(activity);
 
             await DisplayAlert("Success", "Activity created successfully!", "OK");
 
