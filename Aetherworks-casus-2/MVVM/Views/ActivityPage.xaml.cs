@@ -25,7 +25,7 @@ public partial class ActivityPage : ContentPage
         ActivityDescriptionLabel.Text = _activity.Description;
         ActivityDateTimeLabel.Text = $"Date & Time: {_activity.ActivityDate:dd MMM yyyy, HH:mm}";
 
-        var location = await _dbService.GetLocationByIdAsync(_activity.LocationId);
+        var location = await _dbService.GetLocation(_activity.LocationId);
         ActivityLocationLabel.Text = $"Location: {location?.Name ?? "Unknown"}";
 
         if (!string.IsNullOrWhiteSpace(_activity.Picture))
@@ -38,7 +38,7 @@ public partial class ActivityPage : ContentPage
             ActivityImage.IsVisible = false;
         }
 
-        var participations = await _dbService.GetParticipationsByActivityIdAsync(_activity.Id);
+        var participations = await _dbService.GetParticipations(_activity.Id);
         int remainingSpots = _activity.ParticipationLimit - (participations?.Count ?? 0);
 
         if (remainingSpots <= 0)
@@ -66,9 +66,9 @@ public partial class ActivityPage : ContentPage
             Attend = false
         };
 
-        await _dbService.AddParticipationAsync(participation);
+        await _dbService.AddOrUpdateParticipation(participation);
 
-        await _dbService.UpdateActivityAsync(_activity);
+        await _dbService.AddOrUpdateActivity(_activity);
 
         LoadActivityDetailsAsync();
     }

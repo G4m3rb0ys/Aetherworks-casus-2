@@ -45,7 +45,7 @@ public partial class RegisterPage : ContentPage
         }
             else
         {
-            DisplayAlert("Error", _db.statusMessage, "OK");
+            DisplayAlert("Error", _db.StatusMessage, "OK");
         }
         return;
         }

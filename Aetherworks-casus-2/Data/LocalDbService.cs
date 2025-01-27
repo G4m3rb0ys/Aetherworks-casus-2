@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Aetherworks_casus_2.MVVM.Models;
+using System.Diagnostics;
 
 namespace Aetherworks_casus_2.Data
 {
@@ -38,13 +39,12 @@ namespace Aetherworks_casus_2.Data
 
             StatusMessage = "Tables Initialized.";
 
-            GenerateDataAsync().Wait();
+            GenerateData();
         }
 
-        private async Task GenerateDataAsync()
+        public async void GenerateData()
         {
-            // Add standard users
-            await AddOrUpdateUserAsync(new User
+            var user1 = await AddOrUpdateUser(new User
             {
                 IsAdmin = true,
                 Email = "ravismeets@gmail.com",
@@ -55,8 +55,40 @@ namespace Aetherworks_casus_2.Data
                 Username = "SpaceBaker",
                 CapitalizedUsername = "SPACEBAKER"
             });
-
-            await AddOrUpdateUserAsync(new User
+            var user2 = await AddOrUpdateUser(new User
+            {
+                IsAdmin = true,
+                Email = "stanbormans@gmail.com",
+                CapitalizedEmail = "STANBORMANS@GMAIL.COM",
+                Name = "Stan",
+                Password = "123",
+                PhoneNumber = "0645678945",
+                Username = "LostMeta",
+                CapitalizedUsername = "LOSTMETA"
+            });
+            var user3 = await AddOrUpdateUser(new User
+            {
+                IsAdmin = true,
+                Email = "timtigelaar@gmail.com",
+                CapitalizedEmail = "TIMTIGELAAR@GMAIL.COM",
+                Name = "Tim",
+                Password = "123",
+                PhoneNumber = "0615988542",
+                Username = "Maverick",
+                CapitalizedUsername = "MAVERICK"
+            });
+            var user4 = await AddOrUpdateUser(new User
+            {
+                IsAdmin = false,
+                Email = "johndoe@gmail.com",
+                CapitalizedEmail = "JOHNDOE@GMAIL.COM",
+                Name = "John",
+                Password = "123",
+                PhoneNumber = "0612345678",
+                Username = "John",
+                CapitalizedUsername = "JOHN"
+            });
+            var user5 = await AddOrUpdateUser(new User
             {
                 IsAdmin = false,
                 Email = "janedoe@gmail.com",
@@ -67,13 +99,24 @@ namespace Aetherworks_casus_2.Data
                 Username = "Jane",
                 CapitalizedUsername = "JANE"
             });
+            var user6 = await AddOrUpdateUser(new User
+            {
+                IsAdmin = false,
+                Email = "sam.smith@gmail.com",
+                CapitalizedEmail = "SAM.SMITH@GMAIL.COM",
+                Name = "Sam",
+                Password = "123",
+                PhoneNumber = "0654321876",
+                Username = "Sam",
+                CapitalizedUsername = "SAM"
+            });
 
-            StatusMessage = "Standard data generated.";
+            StatusMessage = "Standard Data Generated";
         }
 
         // -------------------- User Methods --------------------
 
-        public async Task<User?> GetUserAsync(int id)
+        public async Task<User?> GetUser(int id)
         {
             try
             {
@@ -86,7 +129,7 @@ namespace Aetherworks_casus_2.Data
             }
         }
 
-        public async Task<User?> GetUserAsync(string userNameOrEmail)
+        public async Task<User?> GetUser(string userNameOrEmail)
         {
             try
             {
@@ -101,30 +144,34 @@ namespace Aetherworks_casus_2.Data
             }
         }
 
-        public async Task AddOrUpdateUserAsync(User user)
+        public async Task<User> AddOrUpdateUser(User newUser)
         {
+            int result = 0;
             try
             {
-                if (user.Id != 0)
+                if (newUser.Id != 0)
                 {
-                    await _connection.UpdateAsync(user);
-                    StatusMessage = "User updated.";
+                    result = await _connection.UpdateAsync(newUser);
+                    StatusMessage = $"{result} row(s) updated :)";
+                    return newUser;
                 }
                 else
                 {
-                    await _connection.InsertAsync(user);
-                    StatusMessage = "User added.";
+                    result = await _connection.InsertAsync(newUser);
+                    StatusMessage = $"{result} row(s) added :)";
+                    return newUser;
                 }
             }
             catch (Exception e)
             {
                 StatusMessage = $"Error: {e.Message}";
+                return null;
             }
         }
 
         // -------------------- Activity Methods --------------------
 
-        public async Task<List<VictuzActivity>> GetAllActivitiesAsync()
+        public async Task<List<VictuzActivity>> GetAllActivities()
         {
             try
             {
@@ -137,7 +184,7 @@ namespace Aetherworks_casus_2.Data
             }
         }
 
-        public async Task<VictuzActivity?> GetActivityByIdAsync(int id)
+        public async Task<VictuzActivity?> GetActivity(int id)
         {
             try
             {
@@ -150,33 +197,32 @@ namespace Aetherworks_casus_2.Data
             }
         }
 
-        public async Task InsertActivityAsync(VictuzActivity activity)
+        public async Task<VictuzActivity> AddOrUpdateActivity(VictuzActivity activity)
         {
+            int result = 0;
             try
             {
-                await _connection.InsertAsync(activity);
-                StatusMessage = "Activity added.";
+                if (activity.Id != 0)
+                {
+                    result = await _connection.UpdateAsync(activity);
+                    StatusMessage = $"{result} row(s) updated :)";
+                    return activity;
+                }
+                else
+                {
+                    result = await _connection.InsertAsync(activity);
+                    StatusMessage = $"{result} row(s) added :)";
+                    return activity;
+                }
             }
             catch (Exception e)
             {
                 StatusMessage = $"Error: {e.Message}";
+                return null;
             }
         }
 
-        public async Task UpdateActivityAsync(VictuzActivity activity)
-        {
-            try
-            {
-                await _connection.UpdateAsync(activity);
-                StatusMessage = "Activity updated.";
-            }
-            catch (Exception e)
-            {
-                StatusMessage = $"Error: {e.Message}";
-            }
-        }
-
-        public async Task DeleteActivityAsync(VictuzActivity activity)
+        public async Task DeleteActivity(VictuzActivity activity)
         {
             try
             {
@@ -191,20 +237,7 @@ namespace Aetherworks_casus_2.Data
 
         // -------------------- Participation Methods --------------------
 
-        public async Task AddParticipationAsync(Participation participation)
-        {
-            try
-            {
-                await _connection.InsertAsync(participation);
-                StatusMessage = "Participation added.";
-            }
-            catch (Exception e)
-            {
-                StatusMessage = $"Error: {e.Message}";
-            }
-        }
-
-        public async Task<List<Participation>> GetParticipationsByActivityIdAsync(int activityId)
+        public async Task<List<Participation>> GetParticipations(int activityId)
         {
             try
             {
@@ -216,10 +249,35 @@ namespace Aetherworks_casus_2.Data
                 return new List<Participation>();
             }
         }
+        public async Task<Participation> AddOrUpdateParticipation(Participation participation)
+        {
+            int result = 0;
+            try
+            {
+                if (participation.Id != 0)
+                {
+                    result = await _connection.UpdateAsync(participation);
+                    StatusMessage = $"{result} row(s) updated :)";
+                    return participation;
+                }
+                else
+                {
+                    result = await _connection.InsertAsync(participation);
+                    StatusMessage = $"{result} row(s) added :)";
+                    return participation;
+                }
+            }
+            catch (Exception e)
+            {
+                StatusMessage = $"Error: {e.Message}";
+                return null;
+            }
+        }
+
 
         // -------------------- Location Methods --------------------
 
-        public async Task<VictuzLocation?> GetLocationByIdAsync(int id)
+        public async Task<VictuzLocation?> GetLocation(int id)
         {
             try
             {
@@ -232,29 +290,28 @@ namespace Aetherworks_casus_2.Data
             }
         }
 
-        public async Task InsertLocationAsync(VictuzLocation location)
+        public async Task<VictuzLocation> AddOrUpdateLocation(VictuzLocation location)
         {
+            int result = 0;
             try
             {
-                await _connection.InsertAsync(location);
-                StatusMessage = "Location added.";
+                if (location.Id != 0)
+                {
+                    result = await _connection.UpdateAsync(location);
+                    StatusMessage = $"{result} row(s) updated :)";
+                    return location;
+                }
+                else
+                {
+                    result = await _connection.InsertAsync(location);
+                    StatusMessage = $"{result} row(s) added :)";
+                    return location;
+                }
             }
             catch (Exception e)
             {
                 StatusMessage = $"Error: {e.Message}";
-            }
-        }
-
-        public async Task UpdateLocationAsync(VictuzLocation location)
-        {
-            try
-            {
-                await _connection.UpdateAsync(location);
-                StatusMessage = "Location updated.";
-            }
-            catch (Exception e)
-            {
-                StatusMessage = $"Error: {e.Message}";
+                return null;
             }
         }
     }
