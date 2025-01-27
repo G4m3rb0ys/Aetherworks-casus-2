@@ -20,13 +20,13 @@ public partial class LoginPage : ContentPage
             DisplayAlert("Error", "Please fill in all fields", "OK");
             return;
         }
-        //User loggedInUser = await _db.GetUser(EmailOrUsernameEntry.Text);
-        //if (loggedInUser == null)
-        //{
-        //    DisplayAlert("Error", "User not found", "OK");
-        //    return;
-        //}
-        //Session.LoggedInUser = loggedInUser;
+        User loggedInUser = await _db.GetUser(EmailOrUsernameEntry.Text);
+        if (loggedInUser == null)
+        {
+            DisplayAlert("Error", "User not found", "OK");
+            return;
+        }
+        SessionService.LoggedInUser = loggedInUser;
         App.Current.MainPage = new NavigationPage(new Navigationbar());
     }
 }
