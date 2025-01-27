@@ -91,6 +91,9 @@
                                    FontSize="13"
                                    TextColor="Black" />
                         </VerticalStackLayout>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnActivityTapped" />
+                        </Frame.GestureRecognizers>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
