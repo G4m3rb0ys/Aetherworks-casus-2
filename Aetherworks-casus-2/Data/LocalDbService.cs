@@ -10,7 +10,7 @@ namespace Aetherworks_casus_2.Data
     public class LocalDbService
     {
         public readonly SQLiteAsyncConnection _connection;
-        public string? statusMessage;
+        public string? StatusMessage { get; private set; }
 
         public LocalDbService()
         {
@@ -18,15 +18,15 @@ namespace Aetherworks_casus_2.Data
                 DataConstants.DatabasePath,
                 DataConstants.flags
             );
-          
+
             if (!File.Exists(DataConstants.DatabasePath))
             {
-                InitializeDatabase();
-                statusMessage = "Database created";
+                InitializeDatabaseAsync().Wait();
+                StatusMessage = "Database created.";
             }
-
         }
-        public async void InitializeDatabase()
+
+        private async Task InitializeDatabaseAsync()
         {
             await _connection.CreateTableAsync<User>();
             await _connection.CreateTableAsync<Participation>();
@@ -35,54 +35,28 @@ namespace Aetherworks_casus_2.Data
             await _connection.CreateTableAsync<SuggestionLiked>();
             await _connection.CreateTableAsync<VictuzActivity>();
             await _connection.CreateTableAsync<VictuzLocation>();
-            statusMessage = "Tables Initialized";
-            GenerateData();
+
+            StatusMessage = "Tables Initialized.";
+
+            GenerateDataAsync().Wait();
         }
 
-        public async void GenerateData()
+        private async Task GenerateDataAsync()
         {
-            var user1 = await AddOrUpdateUser(new User 
-            { 
-                IsAdmin = true, 
-                Email = "ravismeets@gmail.com", 
-                CapitalizedEmail = "RAVISMEETS@GMAIL.COM", 
-                Name = "Ravi", 
-                Password = "123", 
-                PhoneNumber = "0639833440", 
-                Username = "SpaceBaker", 
-                CapitalizedUsername = "SPACEBAKER" });
-            var user2 = await AddOrUpdateUser(new User 
-            { 
-                IsAdmin = true, 
-                Email = "stanbormans@gmail.com", 
-                CapitalizedEmail = "STANBORMANS@GMAIL.COM", 
-                Name = "Stan", 
-                Password = "123", 
-                PhoneNumber = "0645678945", 
-                Username = "LostMeta", 
-                CapitalizedUsername = "LOSTMETA" });
-            var user3 = await AddOrUpdateUser(new User 
-            { 
-                IsAdmin = true, 
-                Email = "timtigelaar@gmail.com", 
-                CapitalizedEmail = "TIMTIGELAAR@GMAIL.COM", 
-                Name = "Tim", 
-                Password = "123", 
-                PhoneNumber = "0615988542", 
-                Username = "Maverick", 
-                CapitalizedUsername = "MAVERICK" });
-            var user4 = await AddOrUpdateUser(new User
+            // Add standard users
+            await AddOrUpdateUserAsync(new User
             {
-                IsAdmin = false,
-                Email = "johndoe@gmail.com",
-                CapitalizedEmail = "JOHNDOE@GMAIL.COM",
-                Name = "John",
+                IsAdmin = true,
+                Email = "ravismeets@gmail.com",
+                CapitalizedEmail = "RAVISMEETS@GMAIL.COM",
+                Name = "Ravi",
                 Password = "123",
-                PhoneNumber = "0612345678",
-                Username = "John",
-                CapitalizedUsername = "JOHN"
+                PhoneNumber = "0639833440",
+                Username = "SpaceBaker",
+                CapitalizedUsername = "SPACEBAKER"
             });
-            var user5 = await AddOrUpdateUser(new User
+
+            await AddOrUpdateUserAsync(new User
             {
                 IsAdmin = false,
                 Email = "janedoe@gmail.com",
@@ -93,200 +67,194 @@ namespace Aetherworks_casus_2.Data
                 Username = "Jane",
                 CapitalizedUsername = "JANE"
             });
-            var user6 = await AddOrUpdateUser(new User
-            {
-                IsAdmin = false,
-                Email = "sam.smith@gmail.com",
-                CapitalizedEmail = "SAM.SMITH@GMAIL.COM",
-                Name = "Sam",
-                Password = "123",
-                PhoneNumber = "0654321876",
-                Username = "Sam",
-                CapitalizedUsername = "SAM"
-            });
 
-            statusMessage = "Standard Data Generated";
+            StatusMessage = "Standard data generated.";
         }
 
-        public async Task<User> GetUser(int id)
+        // -------------------- User Methods --------------------
+
+        public async Task<User?> GetUserAsync(int id)
         {
             try
             {
-                return await _connection.Table<User>().FirstOrDefaultAsync(t => t.Id == id);
-            }
-            catch (Exception e) 
-            {
-                statusMessage = $"Error: {e.Message}";
-            }
-            return null;
-        }
-        public async Task<User> GetUser(string userNameOrEmail)
-        {
-            try
-            {
-                return await _connection.Table<User>().FirstOrDefaultAsync(u => u.CapitalizedUsername == userNameOrEmail.ToUpper() || u.CapitalizedEmail == userNameOrEmail.ToUpper());
+                return await _connection.Table<User>().FirstOrDefaultAsync(u => u.Id == id);
             }
             catch (Exception e)
             {
-                statusMessage = $"Error: {e.Message}";
+                StatusMessage = $"Error: {e.Message}";
                 return null;
+            }
+        }
+
+        public async Task<User?> GetUserAsync(string userNameOrEmail)
+        {
+            try
+            {
+                return await _connection.Table<User>().FirstOrDefaultAsync(u =>
+                    u.CapitalizedUsername == userNameOrEmail.ToUpper() ||
+                    u.CapitalizedEmail == userNameOrEmail.ToUpper());
+            }
+            catch (Exception e)
+            {
+                StatusMessage = $"Error: {e.Message}";
+                return null;
+            }
+        }
+
+        public async Task AddOrUpdateUserAsync(User user)
+        {
+            try
+            {
+                if (user.Id != 0)
+                {
+                    await _connection.UpdateAsync(user);
+                    StatusMessage = "User updated.";
+                }
+                else
+                {
+                    await _connection.InsertAsync(user);
+                    StatusMessage = "User added.";
+                }
+            }
+            catch (Exception e)
+            {
+                StatusMessage = $"Error: {e.Message}";
             }
         }
 
         // -------------------- Activity Methods --------------------
-        public List<VictuzActivity> GetAllActivities()
+
+        public async Task<List<VictuzActivity>> GetAllActivitiesAsync()
         {
             try
             {
-                return _connection.Table<VictuzActivity>().ToList();
+                return await _connection.Table<VictuzActivity>().ToListAsync();
             }
             catch (Exception e)
             {
-                statusMessage = $"Error: {e.Message}";
+                StatusMessage = $"Error: {e.Message}";
                 return new List<VictuzActivity>();
             }
         }
 
-        public VictuzActivity? GetActivityById(int id)
+        public async Task<VictuzActivity?> GetActivityByIdAsync(int id)
         {
             try
             {
-                return _connection.Find<VictuzActivity>(id);
+                return await _connection.FindAsync<VictuzActivity>(id);
             }
             catch (Exception e)
             {
-                statusMessage = $"Error: {e.Message}";
+                StatusMessage = $"Error: {e.Message}";
                 return null;
             }
         }
 
-        public void InsertActivity(VictuzActivity activity)
+        public async Task InsertActivityAsync(VictuzActivity activity)
         {
             try
             {
-                _connection.Insert(activity);
-                statusMessage = "Activity successfully added.";
+                await _connection.InsertAsync(activity);
+                StatusMessage = "Activity added.";
             }
             catch (Exception e)
             {
-                statusMessage = $"Error: {e.Message}";
+                StatusMessage = $"Error: {e.Message}";
             }
         }
 
-        public void UpdateActivity(VictuzActivity activity)
+        public async Task UpdateActivityAsync(VictuzActivity activity)
         {
             try
             {
-                _connection.Update(activity);
-                statusMessage = "Activity successfully updated.";
+                await _connection.UpdateAsync(activity);
+                StatusMessage = "Activity updated.";
             }
             catch (Exception e)
             {
-                statusMessage = $"Error: {e.Message}";
+                StatusMessage = $"Error: {e.Message}";
             }
         }
 
-        public void DeleteActivity(VictuzActivity activity)
+        public async Task DeleteActivityAsync(VictuzActivity activity)
         {
             try
             {
-                _connection.Delete(activity);
-                statusMessage = "Activity successfully deleted.";
+                await _connection.DeleteAsync(activity);
+                StatusMessage = "Activity deleted.";
             }
             catch (Exception e)
             {
-                statusMessage = $"Error: {e.Message}";
+                StatusMessage = $"Error: {e.Message}";
             }
         }
 
         // -------------------- Participation Methods --------------------
-        public void AddParticipation(Participation participation)
+
+        public async Task AddParticipationAsync(Participation participation)
         {
             try
             {
-                _connection.Insert(participation);
-                statusMessage = "Participation successfully added.";
+                await _connection.InsertAsync(participation);
+                StatusMessage = "Participation added.";
             }
             catch (Exception e)
             {
-                statusMessage = $"Error: {e.Message}";
+                StatusMessage = $"Error: {e.Message}";
             }
         }
 
-        public List<Participation> GetParticipationsByActivityId(int activityId)
+        public async Task<List<Participation>> GetParticipationsByActivityIdAsync(int activityId)
         {
             try
             {
-                return _connection.Table<Participation>().Where(p => p.ActivityId == activityId).ToList();
+                return await _connection.Table<Participation>().Where(p => p.ActivityId == activityId).ToListAsync();
             }
             catch (Exception e)
             {
-                statusMessage = $"Error: {e.Message}";
+                StatusMessage = $"Error: {e.Message}";
                 return new List<Participation>();
             }
         }
 
         // -------------------- Location Methods --------------------
-        public VictuzLocation? GetLocationById(int id)
+
+        public async Task<VictuzLocation?> GetLocationByIdAsync(int id)
         {
             try
             {
-                return _connection.Find<VictuzLocation>(id);
+                return await _connection.FindAsync<VictuzLocation>(id);
             }
             catch (Exception e)
             {
-                statusMessage = $"Error: {e.Message}";
+                StatusMessage = $"Error: {e.Message}";
                 return null;
             }
         }
 
-        public void InsertLocation(VictuzLocation location)
+        public async Task InsertLocationAsync(VictuzLocation location)
         {
             try
             {
-                _connection.Insert(location);
-                statusMessage = "Location successfully added.";
+                await _connection.InsertAsync(location);
+                StatusMessage = "Location added.";
             }
             catch (Exception e)
             {
-                statusMessage = $"Error: {e.Message}";
+                StatusMessage = $"Error: {e.Message}";
             }
         }
 
-        public void UpdateLocation(VictuzLocation location)
+        public async Task UpdateLocationAsync(VictuzLocation location)
         {
             try
             {
-                _connection.Update(location);
-                statusMessage = "Location successfully updated.";
+                await _connection.UpdateAsync(location);
+                StatusMessage = "Location updated.";
             }
             catch (Exception e)
             {
-                statusMessage = $"Error: {e.Message}";
-            }
-        }
-        public async Task<User> AddOrUpdateUser(User newUser)
-        {
-            int result = 0;
-            try
-            {
-                if (newUser.Id != 0)
-                {
-                    result = await _connection.UpdateAsync(newUser);
-                    statusMessage = $"{result} row(s) updated :)";
-                    return newUser;
-                }
-                else
-                {
-                    result = await _connection.InsertAsync(newUser);
-                    statusMessage = $"{result} row(s) added :)";
-                    return newUser;
-                }
-            }
-            catch (Exception e)
-            {
-                statusMessage = $"Error: {e.Message}";
-                return null;
+                StatusMessage = $"Error: {e.Message}";
             }
         }
     }

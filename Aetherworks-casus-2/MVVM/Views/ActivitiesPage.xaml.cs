@@ -25,15 +25,15 @@ namespace Aetherworks_casus_2.MVVM.Views
             _allActivities = new List<VictuzActivity>();
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-            LoadActivities(); 
+            await LoadActivitiesAsync();
         }
 
-        private void LoadActivities()
+        private async Task LoadActivitiesAsync()
         {
-            var dbActivities = _localDbService.GetAllActivities();
+            var dbActivities = await _localDbService.GetAllActivitiesAsync();
             _allActivities = dbActivities.ToList();
 
             Activities.Clear();
@@ -42,7 +42,7 @@ namespace Aetherworks_casus_2.MVVM.Views
                 Activities.Add(act);
             }
 
-            ActivitiesCollectionView.ItemsSource = Activities; 
+            ActivitiesCollectionView.ItemsSource = Activities;
         }
 
         private async void OnCreateActivityTapped(object sender, EventArgs e)

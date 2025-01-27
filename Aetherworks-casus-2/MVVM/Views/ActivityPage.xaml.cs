@@ -16,15 +16,17 @@ public partial class ActivityPage : ContentPage
         _activity = activity;
         _dbService = dbService;
 
-        LoadActivityDetails();
+        LoadActivityDetailsAsync();
     }
 
-    private void LoadActivityDetails()
+    private async void LoadActivityDetailsAsync()
     {
         ActivityNameLabel.Text = _activity.Name;
         ActivityDescriptionLabel.Text = _activity.Description;
         ActivityDateTimeLabel.Text = $"Date & Time: {_activity.ActivityDate:dd MMM yyyy, HH:mm}";
-        ActivityLocationLabel.Text = $"Location: {_dbService.GetLocationById(_activity.LocationId)?.Name ?? "Unknown"}";
+
+        var location = await _dbService.GetLocationByIdAsync(_activity.LocationId);
+        ActivityLocationLabel.Text = $"Location: {location?.Name ?? "Unknown"}";
 
         if (!string.IsNullOrWhiteSpace(_activity.Picture))
         {
@@ -36,7 +38,9 @@ public partial class ActivityPage : ContentPage
             ActivityImage.IsVisible = false;
         }
 
-        int remainingSpots = _activity.ParticipationLimit - (_dbService.GetParticipationsByActivityId(_activity.Id)?.Count ?? 0);
+        var participations = await _dbService.GetParticipationsByActivityIdAsync(_activity.Id);
+        int remainingSpots = _activity.ParticipationLimit - (participations?.Count ?? 0);
+
         if (remainingSpots <= 0)
         {
             ActivityAvailabilityLabel.Text = "This activity is fully booked.";
@@ -57,15 +61,15 @@ public partial class ActivityPage : ContentPage
 
         var participation = new Participation
         {
-            UserId = 1,
+            UserId = 1, // Replace with actual user ID when implementing user management
             ActivityId = _activity.Id,
             Attend = false
         };
 
-        _dbService.AddParticipation(participation);
+        await _dbService.AddParticipationAsync(participation);
 
-        LoadActivityDetails();
+        await _dbService.UpdateActivityAsync(_activity);
 
-        _dbService.UpdateActivity(_activity);
+        LoadActivityDetailsAsync();
     }
 }
