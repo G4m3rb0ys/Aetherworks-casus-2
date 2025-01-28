@@ -25,6 +25,12 @@
                     BackgroundColor="#6A1B9A"
                     VerticalOptions="End" 
                     HorizontalOptions="Fill" />
+                <Button 
+                    Text="Print Cache"
+                    Clicked="PrintCache"
+                    BackgroundColor="#6A1B9A"
+                    VerticalOptions="End" 
+                    HorizontalOptions="Fill" />
             </VerticalStackLayout>
         </Frame>
 

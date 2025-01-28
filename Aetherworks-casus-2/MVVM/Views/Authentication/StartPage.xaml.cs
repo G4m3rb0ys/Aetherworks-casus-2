@@ -22,4 +22,8 @@ public partial class StartPage : ContentPage
         Navigation.PushAsync(new RegisterPage(_db));
     }
 
+    private async void PrintCache(object sender, EventArgs e)
+    {
+        Console.WriteLine(await SecureStorage.Default.GetAsync("userCache"));
+    }
 }
