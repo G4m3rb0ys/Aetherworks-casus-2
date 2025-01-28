@@ -19,9 +19,9 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
         {
             SessionService.LogIn(loggedInUser);
         }
-        public void RegisterNewUser()
+        public async Task<User?> RegisterNewUser(User newUser)
         {
-
+            return await _db.AddOrUpdateUser(newUser);
         }
     }
 }
