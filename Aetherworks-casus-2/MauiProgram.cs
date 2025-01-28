@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Aetherworks_casus_2.Data;
+using Plugin.LocalNotification;
 using ZXing.Net.Maui.Controls;
 using Aetherworks_casus_2.MVVM.Views;
 using Aetherworks_casus_2.MVVM.ViewModels;
@@ -13,6 +14,7 @@ namespace Aetherworks_casus_2
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseLocalNotification()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

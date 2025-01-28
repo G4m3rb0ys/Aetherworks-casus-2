@@ -5,7 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:Aetherworks_casus_2.MVVM.Models"
     Title="Main Page"
-    BackgroundColor="#ADD8E6">
+    BackgroundColor="#ADD8E6"
+    NavigationPage.HasNavigationBar="False">
 
     <Grid>
 
@@ -40,10 +41,15 @@
 
             <!-- Top Bar -->
             <Grid Grid.Row="0" HeightRequest="50" BackgroundColor="#dddddd">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*" />
+                    <ColumnDefinition Width="50*" />
+                    <ColumnDefinition Width="25*" />
+                </Grid.ColumnDefinitions>
                 <Image Source="menu_icon.png"
                        HorizontalOptions="Start"
                        VerticalOptions="Center"
-                       Margin="10,0">
+                       Grid.Column="0">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnHamburgerTapped" />
                     </Image.GestureRecognizers>
@@ -53,15 +59,34 @@
                        VerticalOptions="Center"
                        FontSize="18"
                        FontAttributes="Bold"
-                       TextColor="Black" />
-                <Image Source="profile_icon.png"
-                       HorizontalOptions="End"
-                       VerticalOptions="Center"
-                       Margin="10,0">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnProfileTapped" />
-                    </Image.GestureRecognizers>
-                </Image>
+                       TextColor="Black"
+                       Grid.Column="1"/>
+
+                <Grid Grid.Column="2">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*" />
+                        <ColumnDefinition Width="50*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Image Source="profile_icon.png"
+                           HorizontalOptions="End"
+                           VerticalOptions="Center"
+                           Grid.Column="1">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnProfileTapped" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Image Source="bell_icon.png"
+                           HorizontalOptions="End"
+                           VerticalOptions="Center"
+                           Margin="0,0,0,0"
+                           Grid.Column="0">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnBellTapped" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Grid>
 
             </Grid>
 

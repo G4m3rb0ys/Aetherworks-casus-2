@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Aetherworks_casus_2.MVVM.ViewModels"
+             x:Class="Aetherworks_casus_2.MVVM.Views.ProfilePage"
+             Title="ProfilePage">
+    
+    <ContentPage.BindingContext>
+        <vm:ProfileViewModel/>
+    </ContentPage.BindingContext>
+    <VerticalStackLayout Padding="30" Spacing="25">
+
+        <Frame BackgroundColor="#FFFFFF" Padding="20" CornerRadius="10">
+            <VerticalStackLayout Spacing="15">
+
+                <Label Text="Name"
+                       FontAttributes="Bold"
+                       FontSize="16"
+                       TextColor="#212121"/>
+                <Label Text="{Binding Name}"
+                       FontSize="14"
+                       TextColor="#757575"
+                       HorizontalOptions="StartAndExpand"/>
+
+                <Label Text="Username"
+                       FontAttributes="Bold"
+                       FontSize="16"
+                       TextColor="#212121"/>
+                <Label Text="{Binding Username}"
+                       FontSize="14"
+                       TextColor="#757575"
+                       HorizontalOptions="StartAndExpand"/>
+
+                <Label Text="Email"
+                       FontAttributes="Bold"
+                       FontSize="16"
+                       TextColor="#212121"/>
+                <Label Text="{Binding Email}"
+                       FontSize="14"
+                       TextColor="#757575"
+                       HorizontalOptions="StartAndExpand"/>
+
+                <Label Text="Phone Number"
+                       FontAttributes="Bold"
+                       FontSize="16"
+                       TextColor="#212121"/>
+                <Label Text="{Binding PhoneNumber}"
+                       FontSize="14"
+                       TextColor="#757575"
+                       HorizontalOptions="StartAndExpand"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <Button Text="Log Out"
+                TextColor="White"
+                BackgroundColor="#6A1B9A"
+                FontAttributes="Bold"
+                FontSize="16"
+                CornerRadius="10"
+                HorizontalOptions="FillAndExpand"
+                Clicked="OnLogOutClicked"/>
+    </VerticalStackLayout>
+</ContentPage>
