@@ -110,6 +110,30 @@ namespace Aetherworks_casus_2.Data
                 Username = "Sam",
                 CapitalizedUsername = "SAM"
             });
+            var Activity1 = await AddOrUpdateActivity(new VictuzActivity
+            {
+                Category = ActivityCategory.MemOnlyFree,
+                Name = "Football",
+                Description = "Football match",
+                LocationId = 1,
+                ActivityDate = new DateTime(2025, 2, 15, 14, 30, 0),
+                HostId = 1,
+                Price = 10,
+                MemberPrice = 5,
+                ParticipationLimit = 10
+            });
+            var Activity2 = await AddOrUpdateActivity(new VictuzActivity
+            {
+                Category = ActivityCategory.MemOnlyPay,
+                Name = "Basketball",
+                Description = "Basketball match",
+                LocationId = 2,
+                ActivityDate = DateTime.Now,
+                HostId = 2,
+                Price = 15,
+                MemberPrice = 10,
+                ParticipationLimit = 10
+            });
 
             StatusMessage = "Standard Data Generated";
         }
@@ -314,5 +338,30 @@ namespace Aetherworks_casus_2.Data
                 return null;
             }
         }
+
+        /*public async Task AddParticipationAsync(Participation participation)
+        {
+            try
+            {
+                // Check if the user is already participating in the activity
+                var existing = _connection.Table<Participation>()
+                    .FirstOrDefaultAsync(p => p.UserId == participation.UserId && p.ActivityId == participation.ActivityId);
+
+                if (existing != null)
+                {
+                    StatusMessage = "User is already participating in this activity.";
+                    return;
+                }
+
+                // Add participation
+                _connection.Insert(participation);
+                StatusMessage = "Participation successfully added.";
+            }
+            catch (Exception e)
+            {
+                StatusMessage = $"Error: {e.Message}";
+                throw;
+            }
+        }*/
     }
 }

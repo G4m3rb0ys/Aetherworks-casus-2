@@ -1,22 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage 
     x:Class="Aetherworks_casus_2.MVVM.Views.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:Aetherworks_casus_2.MVVM.Models"
     Title="Main Page"
     BackgroundColor="#ADD8E6"
     NavigationPage.HasNavigationBar="False">
 
     <Grid>
 
+        <!-- Side Menu -->
         <Grid x:Name="SideMenu"
               ZIndex="1"
               WidthRequest="220"
               BackgroundColor="LightGray"
               Padding="20"
               HorizontalOptions="Start"
-              VerticalOptions="FillAndExpand">
-
+              VerticalOptions="FillAndExpand"
+              IsVisible="False">
             <VerticalStackLayout Spacing="20">
                 <Label Text="Menu 1" FontAttributes="Bold" TextColor="Black" />
                 <Label Text="Menu 2" FontAttributes="Bold" TextColor="Black" />
@@ -24,6 +26,7 @@
             </VerticalStackLayout>
         </Grid>
 
+        <!-- Main Content -->
         <Grid x:Name="MainContainer"
               ZIndex="2"
               HorizontalOptions="FillAndExpand"
@@ -36,14 +39,13 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
+            <!-- Top Bar -->
             <Grid Grid.Row="0" HeightRequest="50" BackgroundColor="#dddddd">
-
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="25*" />
                     <ColumnDefinition Width="50*" />
                     <ColumnDefinition Width="25*" />
                 </Grid.ColumnDefinitions>
-                
                 <Image Source="menu_icon.png"
                        HorizontalOptions="Start"
                        VerticalOptions="Center"
@@ -52,7 +54,6 @@
                         <TapGestureRecognizer Tapped="OnHamburgerTapped" />
                     </Image.GestureRecognizers>
                 </Image>
-
                 <Label Text="Mijn App"
                        HorizontalOptions="CenterAndExpand"
                        VerticalOptions="Center"
@@ -89,25 +90,26 @@
 
             </Grid>
 
+            <!-- Activity List -->
             <ScrollView Grid.Row="1">
                 <VerticalStackLayout Padding="20" Spacing="20">
-
                     <Label Text="Eerstvolgende activiteit"
                            FontAttributes="Bold"
                            FontSize="18"
                            HorizontalOptions="Center"
                            TextColor="Black" />
 
-                    <Frame BorderColor="Gray" Padding="10" BackgroundColor="Red">
+                    <!-- First Upcoming Activity -->
+                    <Frame BorderColor="Gray" Padding="10" BackgroundColor="Red" IsVisible="{Binding HasUpcomingActivity}">
                         <VerticalStackLayout>
-                            <Label Text="Naam van activiteit (statisch)"
+                            <Label Text="{Binding FirstActivity.Name}"
                                    FontAttributes="Bold" 
                                    FontSize="16"
                                    TextColor="Black" />
-                            <Label Text="12 feb 2025 14:00"
+                            <Label Text="{Binding FirstActivity.ActivityDate, StringFormat='dd MMM yyyy HH:mm'}"
                                    FontSize="13"
                                    TextColor="Black" />
-                            <Label Text="Hier komt eventueel een beschrijving..."
+                            <Label Text="{Binding FirstActivity.Description}"
                                    FontSize="13"
                                    TextColor="Black" />
                         </VerticalStackLayout>
@@ -119,35 +121,48 @@
                            HorizontalOptions="Center"
                            TextColor="Black" />
 
-                    <CollectionView>
+
+                    <Button Text="Go to QR Scan Page"
+                            Clicked="NavigateToQRScanPage"
+                            WidthRequest="300"
+                            HeightRequest="50"/>    
+
+                    <Button Text="Go to QR Generator Page"
+                            Clicked="NavigateToQRGeneratePage"
+                            WidthRequest="300"
+                            HeightRequest="50"/>
+
+                    <!-- All Activities -->
+                    <CollectionView ItemsSource="{Binding Activities}">
+
                         <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Frame BorderColor="LightGray" Padding="10" Margin="0,5"
-                                       BackgroundColor="Red">
+                            <DataTemplate x:DataType="models:VictuzActivity">
+                                <Frame BorderColor="LightGray" Padding="10" Margin="0,5" BackgroundColor="Red">
                                     <VerticalStackLayout>
-                                        <Label Text="Activiteit X (statisch)"
-                                               FontAttributes="Bold" FontSize="16"
-                                               TextColor="Black" />
-                                        <Label Text="15 feb 2025 10:00"
-                                               FontSize="13"
-                                               TextColor="Black" />
-                                        <Label Text="Beschrijving van deze activiteit..."
-                                               FontSize="13"
-                                               TextColor="Black" />
+                                        <Label Text="{Binding Name}"
+                                            FontAttributes="Bold" 
+                                            FontSize="16"
+                                             TextColor="Black" />
+                                        <Label Text="{Binding ActivityDate, StringFormat='{0:dd MMM yyyy HH:mm}'}"
+                           FontSize="13"
+                           TextColor="Black" />
+                                        <Label Text="{Binding Description}"
+                           FontSize="13"
+                           TextColor="Black" />
                                     </VerticalStackLayout>
                                 </Frame>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                         <CollectionView.EmptyView>
                             <Label Text="Geen activiteiten."
-                                   HorizontalOptions="Center" 
-                                   VerticalOptions="CenterAndExpand"
-                                   TextColor="Black" />
+                                  HorizontalOptions="Center" 
+                                  VerticalOptions="CenterAndExpand"
+                                  TextColor="Black" />
                         </CollectionView.EmptyView>
                     </CollectionView>
+
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>
-
     </Grid>
 </ContentPage>
