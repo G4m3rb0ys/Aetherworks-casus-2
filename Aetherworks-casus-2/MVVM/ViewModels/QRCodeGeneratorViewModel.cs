@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Aetherworks_casus_2.MVVM.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using SkiaSharp;
@@ -101,6 +102,12 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
 
             // Return the unmanaged pointer (nint)
             return unmanagedPointer;
+        }
+
+        [RelayCommand]
+        private void BackButton()
+        {
+            Application.Current.MainPage = new MainPage();
         }
     }
 }

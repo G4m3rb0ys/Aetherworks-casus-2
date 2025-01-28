@@ -5,24 +5,30 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Title="QRCodeGeneratorPage">
     <StackLayout Padding="20">
-        <Label 
-            Text="Generate QR Code"
-            FontSize="24" 
-            HorizontalOptions="Center" />
-        
-        <Entry
-            Placeholder="Enter Activity ID" 
-            Text="{Binding ActivityId}" 
-            Keyboard="Numeric" />
         
         <Button 
-            Text="Generate QR Code" 
-            Command="{Binding GenerateQRCodeCommand}" />
+            Text="Back" 
+            Command="{Binding BackButtonCommand}"
+            HorizontalOptions="Start" />
+        <StackLayout Padding="30,0,0,0">
+            <Label 
+                Text="Generate QR Code"
+                FontSize="24" 
+                HorizontalOptions="Center" />
 
-        <Image Source="{Binding QrCodeImage}" 
-           WidthRequest="200" 
-           HeightRequest="200" 
-           HorizontalOptions="Center" />
+            <Entry
+                Placeholder="Enter Activity ID" 
+                Text="{Binding ActivityId}" 
+                Keyboard="Numeric" />
 
+            <Button 
+                Text="Generate QR Code" 
+                Command="{Binding GenerateQRCodeCommand}" />
+
+            <Image Source="{Binding QrCodeImage}" 
+               WidthRequest="200" 
+               HeightRequest="200" 
+               HorizontalOptions="Center" />
+        </StackLayout>
     </StackLayout>
 </ContentPage>

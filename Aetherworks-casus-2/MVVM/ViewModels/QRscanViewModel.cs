@@ -1,5 +1,7 @@
 ﻿using Aetherworks_casus_2.Data;
 using Aetherworks_casus_2.MVVM.Models;
+using Aetherworks_casus_2.MVVM.Views;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Aetherworks_casus_2.MVVM.ViewModels
 {
-    internal class QRscanViewModel
+    internal partial class QRscanViewModel
     {
         private readonly LocalDbService _dbService;
 
@@ -46,6 +48,12 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
             {
 
             }
+        }
+
+        [RelayCommand]
+        public void BackButton()
+        {
+            Application.Current.MainPage = new MainPage();
         }
     }
 }
