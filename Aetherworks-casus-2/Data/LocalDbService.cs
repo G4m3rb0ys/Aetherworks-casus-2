@@ -339,42 +339,29 @@ namespace Aetherworks_casus_2.Data
             }
         }
 
-        public async Task AddParticipationAsync(Participation participation)
+        /*public async Task AddParticipationAsync(Participation participation)
         {
             try
             {
                 // Check if the user is already participating in the activity
                 var existing = _connection.Table<Participation>()
-                    .FirstOrDefault(p => p.UserId == participation.UserId && p.ActivityId == participation.ActivityId);
+                    .FirstOrDefaultAsync(p => p.UserId == participation.UserId && p.ActivityId == participation.ActivityId);
 
                 if (existing != null)
                 {
-                    statusMessage = "User is already participating in this activity.";
+                    StatusMessage = "User is already participating in this activity.";
                     return;
                 }
 
                 // Add participation
                 _connection.Insert(participation);
-                statusMessage = "Participation successfully added.";
+                StatusMessage = "Participation successfully added.";
             }
             catch (Exception e)
             {
-                statusMessage = $"Error: {e.Message}";
+                StatusMessage = $"Error: {e.Message}";
                 throw;
             }
-        }
-
-        public async Task<List<Participation>> GetParticipationsAsync(int activityId)
-        {
-            try
-            {
-                return _connection.Table<Participation>().Where(p => p.ActivityId == activityId).ToList();
-            }
-            catch (Exception e)
-            {
-                statusMessage = $"Error: {e.Message}";
-            }
-            return new List<Participation>();
-        }
+        }*/
     }
 }

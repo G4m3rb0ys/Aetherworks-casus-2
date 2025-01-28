@@ -42,7 +42,7 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
 
             try
             {
-                await _dbService.AddParticipationAsync(participation);
+                await _dbService.AddOrUpdateParticipation(participation);
             }
             catch
             {
