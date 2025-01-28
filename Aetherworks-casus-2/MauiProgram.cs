@@ -24,17 +24,8 @@ namespace Aetherworks_casus_2
             // Register services
             builder.Services.AddSingleton<LocalDbService>();
 
-            AskPushNotifications();
 
             return builder.Build();
-        }
-
-        private static async void AskPushNotifications()
-        {
-            if (!await LocalNotificationCenter.Current.AreNotificationsEnabled())
-            {
-                await LocalNotificationCenter.Current.RequestNotificationPermission();
-            }
         }
     }
 }
