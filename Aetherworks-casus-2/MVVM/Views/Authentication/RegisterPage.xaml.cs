@@ -39,7 +39,7 @@ public partial class RegisterPage : ContentPage
             });
             if (loggedInUser != null)
             {
-                SessionService.LoggedInUser = loggedInUser;
+                SessionService.LogIn(loggedInUser);
                 await DisplayAlert("Success", "Created account successfully\nWelcome!", "OK");
                 App.Current.MainPage = new NavigationPage(new Navigationbar());
         }

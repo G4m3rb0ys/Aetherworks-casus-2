@@ -18,7 +18,7 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
 
         public void LogOut()
         {
-            SessionService.Logout();
+            SessionService.LogOut();
         }
     }
 }

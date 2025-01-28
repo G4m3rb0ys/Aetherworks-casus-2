@@ -21,9 +21,13 @@ namespace Aetherworks_casus_2.Data
 
         public static bool IsUserLoggedIn => _loggedInUser != null;
 
-        public static void Logout()
+        public static void LogOut()
         {
             LoggedInUser = null;
+        }
+        public static void LogIn(User user)
+        {
+            LoggedInUser = user;
         }
     }
 }
