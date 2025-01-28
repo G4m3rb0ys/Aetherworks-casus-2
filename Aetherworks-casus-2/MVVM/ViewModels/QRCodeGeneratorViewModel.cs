@@ -18,6 +18,7 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
         [ObservableProperty]
         private ImageSource qrCodeImage;
 
+        /*
         [RelayCommand]
         private void GenerateQRCodeForActivity()
         {
@@ -43,23 +44,27 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
                 QrCodeImage = null;
             }
         }
-
-        private void GenerateQRCode(string inputData)
+        */
+        [RelayCommand]
+        private void GenerateQRCode()
         {
-            var writer = new BarcodeWriterPixelData
+            if (!string.IsNullOrWhiteSpace(activityId))
             {
-                Format = ZXing.BarcodeFormat.QR_CODE,
-                Options = new ZXing.Common.EncodingOptions
+                var writer = new BarcodeWriterPixelData
                 {
-                    Height = 200,
-                    Width = 200,
-                    Margin = 2
-                }
-            };
+                    Format = ZXing.BarcodeFormat.QR_CODE,
+                    Options = new ZXing.Common.EncodingOptions
+                    {
+                        Height = 200,
+                        Width = 200,
+                        Margin = 2
+                    }
+                };
 
-            // Generate QR Code as a drawable image
-            var result = writer.Write(inputData);
-            QrCodeImage = PixelDataToImageSource(result);
+                // Generate QR Code as a drawable image
+                var result = writer.Write(activityId);
+                QrCodeImage = PixelDataToImageSource(result);
+            };
         }
 
         private ImageSource PixelDataToImageSource(ZXing.Rendering.PixelData pixelData)

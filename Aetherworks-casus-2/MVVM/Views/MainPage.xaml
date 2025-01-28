@@ -62,11 +62,7 @@
                     </Image.GestureRecognizers>
                 </Image>
                 
-                <Button Text="Go to QR Scan Page"
-                        Clicked="NavigateToQRScanPage" />
-
-                <Button Text="Go to QR Generator Page"
-                        Clicked="NavigateToQRGeneratePage" />
+                
 
             </Grid>
 
@@ -100,6 +96,16 @@
                            HorizontalOptions="Center"
                            TextColor="Black" />
 
+                    <Button Text="Go to QR Scan Page"
+                            Clicked="NavigateToQRScanPage"
+                            WidthRequest="300"
+                            HeightRequest="50"/>    
+
+                    <Button Text="Go to QR Generator Page"
+                            Clicked="NavigateToQRGeneratePage"
+                            WidthRequest="300"
+                            HeightRequest="50"/>
+
                     <CollectionView>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
@@ -129,6 +135,7 @@
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>
+        
 
     </Grid>
 </ContentPage>

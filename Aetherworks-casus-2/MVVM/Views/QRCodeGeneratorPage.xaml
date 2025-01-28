@@ -20,9 +20,9 @@
             Command="{Binding GenerateQRCodeCommand}" />
 
         <Image Source="{Binding QrCodeImage}" 
-       WidthRequest="200" 
-       HeightRequest="200" 
-       HorizontalOptions="Center" />
+           WidthRequest="200" 
+           HeightRequest="200" 
+           HorizontalOptions="Center" />
 
     </StackLayout>
 </ContentPage>

@@ -39,7 +39,7 @@ public partial class QRscanPage : ContentPage
                 if (BindingContext is QRscanViewModel viewModel)
                 {
                     await viewModel.AddUserToParticipation(activityId);
-                    //await DisplayAlert("Id voor activiteit", $"ID: {activityId}", "OK");
+                    await DisplayAlert("Id voor activiteit", $"ID: {activityId}", "OK");
                 }
             }
             else
