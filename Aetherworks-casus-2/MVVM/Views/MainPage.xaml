@@ -62,6 +62,7 @@
                         <TapGestureRecognizer Tapped="OnProfileTapped" />
                     </Image.GestureRecognizers>
                 </Image>
+
             </Grid>
 
             <!-- Activity List -->
@@ -95,8 +96,20 @@
                            HorizontalOptions="Center"
                            TextColor="Black" />
 
+
+                    <Button Text="Go to QR Scan Page"
+                            Clicked="NavigateToQRScanPage"
+                            WidthRequest="300"
+                            HeightRequest="50"/>    
+
+                    <Button Text="Go to QR Generator Page"
+                            Clicked="NavigateToQRGeneratePage"
+                            WidthRequest="300"
+                            HeightRequest="50"/>
+
                     <!-- All Activities -->
                     <CollectionView ItemsSource="{Binding Activities}">
+
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:VictuzActivity">
                                 <Frame BorderColor="LightGray" Padding="10" Margin="0,5" BackgroundColor="Red">

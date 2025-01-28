@@ -17,10 +17,6 @@ namespace Aetherworks_casus_2.MVVM.Models
         public int UserId { get; set; }
         [Ignore]
         public User? User { get; set; }
-        [Column("Name")]
-        public string? Name { get; set; }
-        [Column("Email")]
-        public string? Email { get; set; }
         [Column("ActivityId")]
         public int ActivityId { get; set; }
         [Ignore]
