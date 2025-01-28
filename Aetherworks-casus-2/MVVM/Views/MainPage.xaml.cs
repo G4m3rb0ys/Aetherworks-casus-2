@@ -1,4 +1,5 @@
 ﻿using System;
+using Aetherworks_casus_2.Data;
 using Microsoft.Maui.Controls;
 
 namespace Aetherworks_casus_2.MVVM.Views
@@ -29,6 +30,16 @@ namespace Aetherworks_casus_2.MVVM.Views
         private void OnProfileTapped(object sender, EventArgs e)
         {
             DisplayAlert("Profiel", "Mijn prachtige profiel (moet nog toegevoegd worden)", "OK");
+        }
+
+        private void NavigateToQRScanPage(object sender, EventArgs e)
+        {
+            Application.Current.MainPage = new QRscanPage();
+        }
+
+        private void NavigateToQRGeneratePage(object sender, EventArgs e)
+        {
+            Application.Current.MainPage = new QRCodeGeneratorPage();
         }
     }
 }

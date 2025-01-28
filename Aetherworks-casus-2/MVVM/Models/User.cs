@@ -13,6 +13,10 @@ namespace Aetherworks_casus_2.MVVM.Models
         [AutoIncrement]
         [Column("Id")]
         public int Id { get; set; }
+        [Column("Name")]
+        public string? Name { get; set; }
+        [Column("Email")]
+        public string? Email { get; set; }
         [Column("Role")]
         public string? Role { get; set; }
         [Ignore]

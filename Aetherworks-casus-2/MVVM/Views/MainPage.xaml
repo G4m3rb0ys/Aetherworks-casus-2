@@ -61,6 +61,12 @@
                         <TapGestureRecognizer Tapped="OnProfileTapped" />
                     </Image.GestureRecognizers>
                 </Image>
+                
+                <Button Text="Go to QR Scan Page"
+                        Clicked="NavigateToQRScanPage" />
+
+                <Button Text="Go to QR Generator Page"
+                        Clicked="NavigateToQRGeneratePage" />
 
             </Grid>
 
