@@ -34,7 +34,6 @@ namespace Aetherworks_casus_2
             if (!await LocalNotificationCenter.Current.AreNotificationsEnabled())
             {
                 await LocalNotificationCenter.Current.RequestNotificationPermission();
-                LocalNotificationCenter.Current.
             }
         }
     }
