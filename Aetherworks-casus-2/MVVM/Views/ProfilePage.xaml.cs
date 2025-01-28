@@ -20,6 +20,7 @@ namespace Aetherworks_casus_2.MVVM.Views
 
         private void OnLogOutClicked(object sender, EventArgs e)
         {
+            ProfileView.LogOut();
             App.Current.MainPage = new NavigationPage(new StartPage(_db));
         }
         

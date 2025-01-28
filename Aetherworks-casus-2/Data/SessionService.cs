@@ -23,7 +23,7 @@ namespace Aetherworks_casus_2.Data
 
         public static void Logout()
         {
-            _loggedInUser = null;
+            LoggedInUser = null;
         }
     }
 }

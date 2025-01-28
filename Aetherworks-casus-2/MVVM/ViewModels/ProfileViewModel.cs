@@ -15,5 +15,10 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
         public string? Email { get; set; } = SessionService.LoggedInUser.Email;
         public string? Name { get; set; } = SessionService.LoggedInUser.Name;
         public string? PhoneNumber { get; set; } = SessionService.LoggedInUser.PhoneNumber;
+
+        public void LogOut()
+        {
+            SessionService.Logout();
+        }
     }
 }
