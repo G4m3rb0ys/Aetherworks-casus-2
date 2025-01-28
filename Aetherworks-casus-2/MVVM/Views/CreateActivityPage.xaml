@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Aetherworks_casus_2.MVVM.Views.CreateActivityPage"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             Title="Create Activity">
+    <VerticalStackLayout Padding="20" Spacing="20">
+
+        <Button Text="Back to Activities"
+                Clicked="OnBackButtonClicked"
+                HorizontalOptions="Start" />
+
+        <Entry x:Name="NameEntry"
+               Placeholder="Activity Name"
+               Keyboard="Text" />
+
+        <Editor x:Name="DescriptionEditor"
+                Placeholder="Description"
+                AutoSize="TextChanges" />
+
+        <DatePicker x:Name="ActivityDatePicker"
+                    MinimumDate="{x:Static system:DateTime.Now}" />
+        <TimePicker x:Name="ActivityTimePicker" />
+
+        <Entry x:Name="LocationEntry"
+               Placeholder="Location"
+               Keyboard="Text" />
+
+        <Picker x:Name="CategoryPicker"
+                Title="Select or Create Category"
+                SelectedIndexChanged="OnCategoryPickerSelectedIndexChanged" />
+
+        <Entry x:Name="CustomCategoryEntry"
+               Placeholder="Enter new category"
+               IsVisible="False"
+               Keyboard="Text" />
+
+        <Entry x:Name="PriceEntry"
+               Placeholder="Price"
+               Keyboard="Numeric" />
+        <Entry x:Name="MemberPriceEntry"
+               Placeholder="Member Price"
+               Keyboard="Numeric" />
+
+        <Entry x:Name="ParticipationLimitEntry"
+               Placeholder="Participation Limit"
+               Keyboard="Numeric" />
+
+        <Label Text="Add a Photo (Optional)"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+        <Image x:Name="ActivityImage"
+               HeightRequest="150"
+               WidthRequest="150"
+               Aspect="AspectFill"
+               BackgroundColor="LightGray"
+               HorizontalOptions="Center" />
+        <Button Text="Select Photo"
+                Clicked="OnSelectPhotoClicked"
+                HorizontalOptions="Center" />
+
+        <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
+            <Button Text="Create"
+                    BackgroundColor="Green"
+                    TextColor="White"
+                    Clicked="OnCreateButtonClicked" />
+
+            <Button Text="Cancel"
+                    BackgroundColor="Red"
+                    TextColor="White"
+                    Clicked="OnCancelButtonClicked" />
+        </HorizontalStackLayout>
+
+    </VerticalStackLayout>
+</ContentPage>

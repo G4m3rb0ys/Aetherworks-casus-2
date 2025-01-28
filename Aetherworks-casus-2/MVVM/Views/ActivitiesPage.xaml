@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Aetherworks_casus_2.MVVM.Views.ActivitiesPage"
+             xmlns:models="clr-namespace:Aetherworks_casus_2.MVVM.Models"
+             Title="ActivitiesPage">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"
+      BackgroundColor="#DDDDDD"
+      HeightRequest="60"
+      Padding="0,25,0,0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <HorizontalStackLayout Grid.Column="0"
+                           Spacing="10"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center"
+                           Margin="10,0">
+                <Image Source="menu_icon.png"
+               VerticalOptions="Center">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCreateActivityTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </HorizontalStackLayout>
+
+            <!-- Titel (midden) -->
+            <Label Grid.Column="1"
+           Text="Activiteiten"
+           HorizontalOptions="CenterAndExpand"
+           VerticalOptions="Center"
+           FontAttributes="Bold"
+           FontSize="18"
+           TextColor="Black" />
+
+            <HorizontalStackLayout Grid.Column="2"
+                           HorizontalOptions="End"
+                           VerticalOptions="Center"
+                           Spacing="10"
+                           Margin="10,0">
+                <Image Source="filter_icon.png"
+               VerticalOptions="Center">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnFilterTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <SearchBar x:Name="ActivitySearchBar"
+                   Placeholder="Zoek activiteit..."
+                   VerticalOptions="Center"
+                   WidthRequest="150"
+                   TextChanged="ActivitySearchBar_TextChanged" />
+            </HorizontalStackLayout>
+        </Grid>
+
+        <CollectionView x:Name="ActivitiesCollectionView"
+                        Grid.Row="1"
+                        ItemsSource="{Binding Activities}"
+                        EmptyView="Geen activiteiten gevonden.">
+
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Span="2" Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:VictuzActivity">
+                    <Frame Margin="10"
+                           BackgroundColor="Red"
+                           BorderColor="Black"
+                           Padding="10">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Name}"
+                                   FontAttributes="Bold"
+                                   TextColor="Black"
+                                   FontSize="16" />
+                            <Label Text="{Binding ActivityDate, StringFormat='{0:dd MMM yyyy HH:mm}'}"
+                                   FontSize="13"
+                                   TextColor="Black" />
+                            <Label Text="{Binding Description}"
+                                   FontSize="13"
+                                   TextColor="Black" />
+                        </VerticalStackLayout>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnActivityTapped" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>

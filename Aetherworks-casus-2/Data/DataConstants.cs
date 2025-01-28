@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Aetherworks_casus_2.Data
 {
-    public static class DataConstanst
+    public static class DataConstants
     {
-        private const string DBFileName = "SqliteDatabase.db3";
+        private const string DBFileName = "AetherworksDatabase2.db3";
 
         public const SQLiteOpenFlags flags =
             SQLiteOpenFlags.ReadWrite |
