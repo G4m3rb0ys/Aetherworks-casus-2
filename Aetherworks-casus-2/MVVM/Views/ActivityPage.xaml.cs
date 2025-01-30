@@ -7,6 +7,7 @@ public partial class ActivityPage : ContentPage
 {
     private readonly VictuzActivity _activity;
     private readonly LocalDbService _dbService;
+    private readonly bool _isAdmin;
 
     public ActivityPage(VictuzActivity activity, LocalDbService dbService)
     {
@@ -15,6 +16,12 @@ public partial class ActivityPage : ContentPage
 
         _activity = activity;
         _dbService = dbService;
+        _isAdmin = SessionService.LoggedInUser?.IsAdmin ?? false;
+
+        if (_isAdmin)
+        {
+            GenerateQRCodeButton.IsVisible = true;
+        }
 
         LoadActivityDetailsAsync();
     }
@@ -28,31 +35,20 @@ public partial class ActivityPage : ContentPage
         var location = await _dbService.GetLocation(_activity.LocationId);
         ActivityLocationLabel.Text = $"Location: {location?.Name ?? "Unknown"}";
 
-        if (!string.IsNullOrWhiteSpace(_activity.Picture))
-        {
-            ActivityImage.Source = ImageSource.FromFile(_activity.Picture);
-            ActivityImage.IsVisible = true;
-        }
-        else
-        {
-            ActivityImage.IsVisible = false;
-        }
-
         var participations = await _dbService.GetParticipations(_activity.Id);
         int remainingSpots = _activity.ParticipationLimit - (participations?.Count ?? 0);
 
-        if (remainingSpots <= 0)
-        {
-            ActivityAvailabilityLabel.Text = "This activity is fully booked.";
-            ActivityAvailabilityLabel.TextColor = Colors.Red;
-            SignUpButton.IsEnabled = false;
-        }
-        else
-        {
-            ActivityAvailabilityLabel.Text = $"{remainingSpots} spots left.";
-            ActivityAvailabilityLabel.TextColor = Colors.Green;
-            SignUpButton.IsEnabled = true;
-        }
+        ActivityAvailabilityLabel.Text = remainingSpots <= 0
+            ? "This activity is fully booked."
+            : $"{remainingSpots} spots left.";
+        ActivityAvailabilityLabel.TextColor = remainingSpots <= 0 ? Colors.Red : Colors.Green;
+
+        SignUpButton.IsEnabled = remainingSpots > 0;
+    }
+
+    private async void OnGenerateQRCodeClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new QRCodeGeneratorPage(_activity.Id.ToString(), "Activity"));
     }
 
     private async void OnSignUpButtonClicked(object sender, EventArgs e)
@@ -61,13 +57,12 @@ public partial class ActivityPage : ContentPage
 
         var participation = new Participation
         {
-            UserId = 1, // Replace with actual user ID when implementing user management
+            UserId = SessionService.LoggedInUser?.Id ?? 0,
             ActivityId = _activity.Id,
             Attend = false
         };
 
         await _dbService.AddOrUpdateParticipation(participation);
-
         await _dbService.AddOrUpdateActivity(_activity);
 
         LoadActivityDetailsAsync();
