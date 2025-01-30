@@ -7,23 +7,19 @@ public partial class StartPage : ContentPage
 {
     private readonly LocalDbService _db;
     public StartPage(LocalDbService db)
-	{
-		InitializeComponent();
+	  {
+        InitializeComponent();
         _db = db;
-        //Session.LoggedInUser = null;
+        SessionService.LoggedInUser = null;
     }
 
-	public void OnLoginClicked(object sender, EventArgs e)
+	  public void OnLoginClicked(object sender, EventArgs e)
     {
         Navigation.PushAsync(new LoginPage(_db));
     }
-	public void OnRegisterClicked(object sender, EventArgs e)
+    
+	  public void OnRegisterClicked(object sender, EventArgs e)
     {
         Navigation.PushAsync(new RegisterPage(_db));
-    }
-
-    private void Button_Clicked(object sender, EventArgs e)
-    {
-        DisplayAlert("DB Status", _db.StatusMessage, "OK");
     }
 }

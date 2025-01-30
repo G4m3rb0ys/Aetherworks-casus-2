@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Aetherworks_casus_2.MVVM.Views.ActivitiesPage"
              xmlns:models="clr-namespace:Aetherworks_casus_2.MVVM.Models"
-             Title="ActivitiesPage">
+             Title="ActivitiesPage"
+             NavigationPage.HasNavigationBar="False">
     <Grid>
 
         <Grid.RowDefinitions>

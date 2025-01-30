@@ -25,12 +25,6 @@
                     BackgroundColor="#6A1B9A"
                     VerticalOptions="End" 
                     HorizontalOptions="Fill" />
-                <Button 
-                        Text="Database Print"
-                        Clicked="Button_Clicked"
-                        BackgroundColor="#6A1B9A"
-                        VerticalOptions="End" 
-                        HorizontalOptions="Fill" />
             </VerticalStackLayout>
         </Frame>
 

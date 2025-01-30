@@ -1,5 +1,6 @@
 using Aetherworks_casus_2.MVVM.Models;
 using Aetherworks_casus_2.Data;
+using Aetherworks_casus_2.MVVM.ViewModels;
 
 
 namespace Aetherworks_casus_2.MVVM.Views.Authentication;
@@ -7,7 +8,8 @@ namespace Aetherworks_casus_2.MVVM.Views.Authentication;
 public partial class RegisterPage : ContentPage
 {
     private readonly LocalDbService _db;
-	public RegisterPage(LocalDbService db)
+    private LoginRegisterViewModel viewModel = new LoginRegisterViewModel();
+    public RegisterPage(LocalDbService db)
 	{
 		InitializeComponent();
         _db = db;
@@ -27,7 +29,7 @@ public partial class RegisterPage : ContentPage
         }
         else
         {
-            var loggedInUser = await _db.AddOrUpdateUser(new User
+            var loggedInUser = await viewModel.RegisterNewUser(new User
             {
                 Username = UsernameEntry.Text,
                 CapitalizedUsername = UsernameEntry.Text.ToUpper(),
@@ -39,15 +41,15 @@ public partial class RegisterPage : ContentPage
             });
             if (loggedInUser != null)
             {
-                SessionService.LoggedInUser = loggedInUser;
+                SessionService.LogIn(loggedInUser);
                 await DisplayAlert("Success", "Created account successfully\nWelcome!", "OK");
                 App.Current.MainPage = new NavigationPage(new Navigationbar());
-        }
+            }
             else
-        {
-            DisplayAlert("Error", _db.StatusMessage, "OK");
-        }
-        return;
+            {
+                DisplayAlert("Error", _db.StatusMessage, "OK");
+            }
+            return;
         }
     }
 }

@@ -21,9 +21,15 @@ namespace Aetherworks_casus_2.Data
 
         public static bool IsUserLoggedIn => _loggedInUser != null;
 
-        public static void Logout()
+        public static void LogOut()
         {
-            _loggedInUser = null;
+            LoggedInUser = null;
+            SecureStorage.Default.Remove("rememberUserLogin");
+        }
+        public static void LogIn(User user)
+        {
+            LoggedInUser = user;
+            SecureStorage.Default.SetAsync("rememberUserLogin", user.Id.ToString());
         }
     }
 }
