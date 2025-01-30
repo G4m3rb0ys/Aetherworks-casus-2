@@ -338,5 +338,32 @@ namespace Aetherworks_casus_2.Data
                 return null;
             }
         }
+
+        public async Task DeleteParticipationAsync(Participation participation)
+        {
+            try
+            {
+                await _connection.DeleteAsync(participation);
+            }
+            catch (Exception e)
+            {
+                StatusMessage = $"Error: {e.Message}";
+            }
+        }
+
+        public async Task<Participation?> GetParticipationAsync(int activityId, int userId)
+        {
+            try
+            {
+                return await _connection.Table<Participation>()
+                                        .FirstOrDefaultAsync(p => p.ActivityId == activityId && p.UserId == userId);
+            }
+            catch (Exception e)
+            {
+                StatusMessage = $"Error: {e.Message}";
+                return null;
+            }
+        }
+
     }
 }
