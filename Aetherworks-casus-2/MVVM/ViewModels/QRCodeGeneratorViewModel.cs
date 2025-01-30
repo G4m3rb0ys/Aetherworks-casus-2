@@ -11,103 +11,65 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
     public partial class QRCodeGeneratorViewModel : ObservableObject
     {
         [ObservableProperty]
-        private string activityId;
+        private string id;
 
-        [ObservableProperty] 
-        private string userId;
+        [ObservableProperty]
+        private string type;
 
         [ObservableProperty]
         private ImageSource qrCodeImage;
 
-        /*
-        [RelayCommand]
-        private void GenerateQRCodeForActivity()
+        public QRCodeGeneratorViewModel(string id, string type)
         {
-            if (int.TryParse(ActivityId, out int activityId))
-            {
-                GenerateQRCode(activityId.ToString());
-            }
-            else
-            {
-                QrCodeImage = null;
-            }
+            Id = id;
+            Type = type;
+            GenerateQRCode();
         }
 
-        [RelayCommand]
-        private void GenerateQRCodeForProfile()
-        {
-            if (int.TryParse(UserId, out int userId))
-            {
-                GenerateQRCode(userId.ToString());
-            }
-            else 
-            { 
-                QrCodeImage = null;
-            }
-        }
-        */
-        [RelayCommand]
         private void GenerateQRCode()
         {
-            if (!string.IsNullOrWhiteSpace(activityId))
+            if (!string.IsNullOrWhiteSpace(Id))
             {
                 var writer = new BarcodeWriterPixelData
                 {
                     Format = ZXing.BarcodeFormat.QR_CODE,
                     Options = new ZXing.Common.EncodingOptions
                     {
-                        Height = 200,
-                        Width = 200,
+                        Height = 300,
+                        Width = 300,
                         Margin = 2
                     }
                 };
 
-                // Generate QR Code as a drawable image
-                var result = writer.Write(activityId);
+                // Use JSON format for QR data
+                var qrData = $"{Id}";
+                var result = writer.Write(qrData);
                 QrCodeImage = PixelDataToImageSource(result);
-            };
+            }
         }
 
         private ImageSource PixelDataToImageSource(ZXing.Rendering.PixelData pixelData)
         {
-            // Create a new stream for the image
             var memoryStream = new MemoryStream();
-
-            // Create an SKBitmap from the pixel data
             var info = new SKImageInfo(pixelData.Width, pixelData.Height, SKColorType.Bgra8888);
-            using var skBitmap = new SKBitmap(info);
 
-            // Copy the pixel data byte array to the bitmap
+            using var skBitmap = new SKBitmap(info);
             skBitmap.InstallPixels(info, ByteArrayToNint(pixelData.Pixels));
 
-            // Encode the SKBitmap to PNG
             using var skImage = SKImage.FromBitmap(skBitmap);
             using var skData = skImage.Encode(SKEncodedImageFormat.Png, 100);
 
-            // Save the encoded PNG to the memory stream
             skData.SaveTo(memoryStream);
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            // Convert the stream to an ImageSource
             return ImageSource.FromStream(() => memoryStream);
         }
 
         private nint ByteArrayToNint(byte[] byteArray)
         {
-            // Allocate unmanaged memory
             var unmanagedPointer = Marshal.AllocHGlobal(byteArray.Length);
-
-            // Copy the byte array to the unmanaged memory
             Marshal.Copy(byteArray, 0, unmanagedPointer, byteArray.Length);
-
-            // Return the unmanaged pointer (nint)
             return unmanagedPointer;
-        }
-
-        [RelayCommand]
-        private void BackButton()
-        {
-            Application.Current.MainPage = new MainPage();
         }
     }
 }

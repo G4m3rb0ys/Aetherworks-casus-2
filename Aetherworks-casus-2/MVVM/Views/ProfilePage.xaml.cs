@@ -18,6 +18,14 @@ namespace Aetherworks_casus_2.MVVM.Views
             BindingContext = ProfileView;
         }
 
+        private async void OnGenerateQRCodeClicked(object sender, EventArgs e)
+        {
+            if (ProfileView.LoggedInUser != null)
+            {
+                await Navigation.PushAsync(new QRCodeGeneratorPage(ProfileView.LoggedInUser.Id.ToString(), "User"));
+            }
+        }
+
         private void OnLogOutClicked(object sender, EventArgs e)
         {
             ProfileView.LogOut();

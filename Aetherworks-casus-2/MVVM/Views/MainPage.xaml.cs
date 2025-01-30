@@ -59,10 +59,5 @@ namespace Aetherworks_casus_2.MVVM.Views
         {
             Application.Current.MainPage = new QRscanPage();
         }
-
-        private void NavigateToQRGeneratePage(object sender, EventArgs e)
-        {
-            Application.Current.MainPage = new QRCodeGeneratorPage();
-        }
     }
 }

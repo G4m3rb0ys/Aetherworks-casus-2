@@ -10,24 +10,11 @@
             Text="Back" 
             Command="{Binding BackButtonCommand}"
             HorizontalOptions="Start" />
-        <StackLayout Padding="30,0,0,0">
-            <Label 
-                Text="Generate QR Code"
-                FontSize="24" 
-                HorizontalOptions="Center" />
-
-            <Entry
-                Placeholder="Enter Activity ID" 
-                Text="{Binding ActivityId}" 
-                Keyboard="Numeric" />
-
-            <Button 
-                Text="Generate QR Code" 
-                Command="{Binding GenerateQRCodeCommand}" />
-
+        
+        <StackLayout Padding="0,50,0,0">
             <Image Source="{Binding QrCodeImage}" 
-               WidthRequest="200" 
-               HeightRequest="200" 
+               WidthRequest="300" 
+               HeightRequest="300"
                HorizontalOptions="Center" />
         </StackLayout>
     </StackLayout>
