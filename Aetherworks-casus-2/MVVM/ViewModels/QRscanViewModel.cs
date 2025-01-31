@@ -75,12 +75,17 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
             {
                 userParticipation.Attend = true;
                 _dbService.AddOrUpdateParticipation(userParticipation);
+
+                Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500));
+
                 await Application.Current.MainPage.DisplayAlert("Attendance Marked", $"User {userId} marked as attended for Activity {activityId}.", "OK");
 
                 Application.Current.MainPage.Navigation.PopAsync();
             }
             else
             {
+                Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500));
+
                 await Application.Current.MainPage.DisplayAlert("Error", "User is not registered for this activity.", "OK");
 
                 Application.Current.MainPage.Navigation.PopAsync();
@@ -96,12 +101,17 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
             {
                 selfParticipation.Attend = true;
                 _dbService.AddOrUpdateParticipation(selfParticipation);
+
+                Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500));
+
                 Application.Current.MainPage.DisplayAlert("Attendance Confirmed", "You have been marked as attended.", "OK");
 
                 Application.Current.MainPage.Navigation.PopAsync();
             }
             else
             {
+                Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500));
+
                 Application.Current.MainPage.DisplayAlert("Error", "You are not registered for this activity.", "OK");
 
                 Application.Current.MainPage.Navigation.PopAsync();
