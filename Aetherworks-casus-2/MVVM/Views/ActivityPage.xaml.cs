@@ -38,13 +38,22 @@ public partial class ActivityPage : ContentPage
 
         var participations = await _dbService.GetParticipations(_activity.Id);
         int remainingSpots = _activity.ParticipationLimit - (participations?.Count ?? 0);
+        if (remainingSpots <= 0)
+        {
+            ActivityAvailabilityLabel.Text = "This activity is fully booked.";
+            ActivityAvailabilityLabel.TextColor = Colors.Red;
+            SignUpButton.IsEnabled = false;
+            SignOutButton.IsVisible = false;
+        }
+        else
+        {
+            ActivityAvailabilityLabel.Text = $"{remainingSpots} spots left.";
+            ActivityAvailabilityLabel.TextColor = Colors.Green;
 
-        ActivityAvailabilityLabel.Text = remainingSpots <= 0
-            ? "This activity is fully booked."
-            : $"{remainingSpots} spots left.";
-        ActivityAvailabilityLabel.TextColor = remainingSpots <= 0 ? Colors.Red : Colors.Green;
-
-        SignUpButton.IsEnabled = remainingSpots > 0;
+            bool userSignedUp = await IsUserSignedUp();
+            SignUpButton.IsVisible = !userSignedUp;
+            SignOutButton.IsVisible = userSignedUp;
+        }
     }
 
     private async void OnGenerateQRCodeClicked(object sender, EventArgs e)
@@ -57,20 +66,52 @@ public partial class ActivityPage : ContentPage
         await Navigation.PushAsync(new QRscanPage(_activity.Id));
     }
 
+
+    private async Task<bool> IsUserSignedUp()
+    {
+        var participations = await _dbService.GetParticipations(_activity.Id);
+        return participations.Any(p => p.UserId == SessionService.LoggedInUser.Id);
+    }
+
+
     private async void OnSignUpButtonClicked(object sender, EventArgs e)
     {
-        await DisplayAlert("Signed Up", "You have successfully signed up for this activity!", "OK");
-
         var participation = new Participation
         {
             UserId = SessionService.LoggedInUser?.Id ?? 0,
             ActivityId = _activity.Id,
+            Activity = _activity,
             Attend = false
         };
 
         await _dbService.AddOrUpdateParticipation(participation);
         await _dbService.AddOrUpdateActivity(_activity);
 
+        participation.CreateNotifications();
+
+        await DisplayAlert("Signed Up", "You have successfully signed up for this activity!", "OK");
+
         LoadActivityDetailsAsync();
     }
+
+    private async void OnSignOutButtonClicked(object sender, EventArgs e)
+    {
+        var confirmed = await DisplayAlert("Sign Out", "Are you sure you want to sign out from this activity?", "Yes", "No");
+
+        if (confirmed)
+        {
+            var participation = await _dbService.GetParticipationAsync(SessionService.LoggedInUser.Id, _activity.Id);
+            if (participation != null)
+            {
+                await _dbService.DeleteParticipationAsync(participation);
+                await _dbService.AddOrUpdateActivity(_activity);
+
+                await DisplayAlert("Signed Out", "You have successfully signed out of this activity!", "OK");
+
+                LoadActivityDetailsAsync();
+            }
+        }
+    }
+
+
 }

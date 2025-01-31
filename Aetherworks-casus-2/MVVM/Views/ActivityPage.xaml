@@ -78,16 +78,31 @@
 
             <!-- Sign Up Button -->
             <Button x:Name="SignUpButton"
-                    Text="Sign Up"
-                    BackgroundColor="Green"
-                    TextColor="White"
-                    CornerRadius="25"
-                    HeightRequest="50"
-                    FontAttributes="Bold"
-                    FontSize="18"
-                    Clicked="OnSignUpButtonClicked"
-                    HorizontalOptions="Center"
-                    WidthRequest="200" />
+                Text="Sign Up"
+                BackgroundColor="Green"
+                TextColor="White"
+                CornerRadius="25"
+                HeightRequest="50"
+                FontAttributes="Bold"
+                FontSize="18"
+                Clicked="OnSignUpButtonClicked"
+                HorizontalOptions="Center"
+                WidthRequest="200"
+                IsVisible="{Binding IsUserNotSignedUp}" />
+
+            <Button x:Name="SignOutButton"
+                Text="You are signed in"
+                BackgroundColor="Red"
+                TextColor="White"
+                CornerRadius="25"
+                HeightRequest="50"
+                FontAttributes="Bold"
+                FontSize="18"
+                Clicked="OnSignOutButtonClicked"
+                HorizontalOptions="Center"
+                WidthRequest="200"
+                IsVisible="{Binding IsUserSignedUp}" />
+
 
             <!-- QR Code Button (Only Visible for Admins) -->
             <Button x:Name="GenerateQRCodeButton"

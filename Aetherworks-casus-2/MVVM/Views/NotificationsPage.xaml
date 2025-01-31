@@ -8,15 +8,10 @@
             Text="Welcome to .NET MAUI!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-
-        <Button Text="Notification"
+        <Button Text="Create"
+            BackgroundColor="Green"
             TextColor="White"
-            BackgroundColor="#6A1B9A"
-            FontAttributes="Bold"
-            FontSize="16"
-            CornerRadius="10"
-            HorizontalOptions="FillAndExpand"
-            Clicked="Button_Clicked"/>
+            Clicked="Button_Clicked" />
     </VerticalStackLayout>
     
 </ContentPage>
