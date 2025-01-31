@@ -10,22 +10,6 @@
 
     <Grid>
 
-        <!-- Side Menu -->
-        <Grid x:Name="SideMenu"
-              ZIndex="1"
-              WidthRequest="220"
-              BackgroundColor="LightGray"
-              Padding="20"
-              HorizontalOptions="Start"
-              VerticalOptions="FillAndExpand"
-              IsVisible="False">
-            <VerticalStackLayout Spacing="20">
-                <Label Text="Menu 1" FontAttributes="Bold" TextColor="Black" />
-                <Label Text="Menu 2" FontAttributes="Bold" TextColor="Black" />
-                <Label Text="Menu 3" FontAttributes="Bold" TextColor="Black" />
-            </VerticalStackLayout>
-        </Grid>
-
         <!-- Main Content -->
         <Grid x:Name="MainContainer"
               ZIndex="2"
@@ -46,14 +30,6 @@
                     <ColumnDefinition Width="50*" />
                     <ColumnDefinition Width="25*" />
                 </Grid.ColumnDefinitions>
-                <Image Source="menu_icon.png"
-                       HorizontalOptions="Start"
-                       VerticalOptions="Center"
-                       Grid.Column="0">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnHamburgerTapped" />
-                    </Image.GestureRecognizers>
-                </Image>
                 <Label Text="Mijn App"
                        HorizontalOptions="CenterAndExpand"
                        VerticalOptions="Center"
@@ -134,12 +110,15 @@
                                             FontSize="16"
                                              TextColor="Black" />
                                         <Label Text="{Binding ActivityDate, StringFormat='{0:dd MMM yyyy HH:mm}'}"
-                           FontSize="13"
-                           TextColor="Black" />
+                                               FontSize="13"
+                                               TextColor="Black" />
                                         <Label Text="{Binding Description}"
-                           FontSize="13"
-                           TextColor="Black" />
+                                               FontSize="13"
+                                               TextColor="Black" />
                                     </VerticalStackLayout>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnActivityTapped" />
+                                    </Frame.GestureRecognizers>
                                 </Frame>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
