@@ -11,18 +11,6 @@
             x:Name="BarcodeReader"
             BarcodesDetected="barcodeReader_BarcodesDetected"
             Grid.Row="0" />
-
-        <VerticalStackLayout 
-            Grid.Row="1"
-            VerticalOptions="Start"
-            Padding="10">
-            
-            <Button 
-                Text="Back"
-                Command="{Binding BackButtonCommand}"
-                HorizontalOptions="Start"/>
-            
-        </VerticalStackLayout>
     </Grid>
 
 </ContentPage>

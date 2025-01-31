@@ -48,6 +48,10 @@
                        FontSize="14"
                        TextColor="#757575"
                        HorizontalOptions="StartAndExpand"/>
+                <Button 
+                    Text="Qr Code"
+                    WidthRequest="170"
+                    Command="{Binding GenerateQRCodeCommand}"/>
             </VerticalStackLayout>
         </Frame>
 

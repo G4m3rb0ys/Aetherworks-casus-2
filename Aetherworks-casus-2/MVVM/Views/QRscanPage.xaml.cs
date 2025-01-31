@@ -7,13 +7,16 @@ namespace Aetherworks_casus_2.MVVM.Views;
 public partial class QRscanPage : ContentPage
 {
 
-    public QRscanPage()
+    private readonly QRscanViewModel _viewModel;
+
+    public QRscanPage(int activityId)
     {
         InitializeComponent();
 
         LocalDbService dbService = new LocalDbService();
+        _viewModel = new QRscanViewModel(dbService, activityId.ToString(), "Activity", activityId);
 
-        BindingContext = new QRscanViewModel(dbService);
+        BindingContext = _viewModel;
 
         BarcodeReader.Options = new ZXing.Net.Maui.BarcodeReaderOptions
         {
@@ -26,12 +29,9 @@ public partial class QRscanPage : ContentPage
     private async void barcodeReader_BarcodesDetected(object sender, ZXing.Net.Maui.BarcodeDetectionEventArgs e)
     {
         var first = e.Results?.FirstOrDefault();
+        if (first == null) return;
 
-        if (first == null)
-        {
-            return;
-        }
-
+        /*
         await Dispatcher.DispatchAsync(async () =>
         {
             if (int.TryParse(first.Value, out int activityId))
@@ -46,6 +46,11 @@ public partial class QRscanPage : ContentPage
             {
                 await DisplayAlert("Invalid QR Code", "The scanned QR code is not valid for an activity.", "OK");
             }
+        });*/
+
+        await Dispatcher.DispatchAsync(async () =>
+        {
+            await _viewModel.ProcessScannedQRCode(first.Value);
         });
     }
 }

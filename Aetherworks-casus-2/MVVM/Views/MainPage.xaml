@@ -120,17 +120,7 @@
                            FontSize="18"
                            HorizontalOptions="Center"
                            TextColor="Black" />
-
-
-                    <Button Text="Go to QR Scan Page"
-                            Clicked="NavigateToQRScanPage"
-                            WidthRequest="300"
-                            HeightRequest="50"/>    
-
-                    <Button Text="Go to QR Generator Page"
-                            Clicked="NavigateToQRGeneratePage"
-                            WidthRequest="300"
-                            HeightRequest="50"/>
+                    
 
                     <!-- All Activities -->
                     <CollectionView ItemsSource="{Binding Activities}">

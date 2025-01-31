@@ -7,6 +7,7 @@
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
 
+            <!-- Activity Name -->
             <Frame BackgroundColor="#2196F3"
                    CornerRadius="10"
                    Padding="15">
@@ -17,12 +18,14 @@
                        HorizontalOptions="Center" />
             </Frame>
 
+            <!-- Activity Image -->
             <Image x:Name="ActivityImage"
                    HeightRequest="200"
                    Aspect="AspectFill"
                    IsVisible="False"
                    Margin="0,10,0,10" />
 
+            <!-- Activity Details -->
             <Frame BackgroundColor="White"
                    CornerRadius="10"
                    BorderColor="#D3D3D3"
@@ -60,6 +63,7 @@
                 </VerticalStackLayout>
             </Frame>
 
+            <!-- Availability -->
             <Frame BackgroundColor="#E3F2FD"
                    CornerRadius="10"
                    BorderColor="#2196F3"
@@ -72,6 +76,7 @@
                 </HorizontalStackLayout>
             </Frame>
 
+            <!-- Sign Up Button -->
             <Button x:Name="SignUpButton"
                 Text="Sign Up"
                 BackgroundColor="Green"
@@ -98,6 +103,33 @@
                 WidthRequest="200"
                 IsVisible="{Binding IsUserSignedUp}" />
 
+
+            <!-- QR Code Button (Only Visible for Admins) -->
+            <Button x:Name="GenerateQRCodeButton"
+                    Text="Generate QR Code"
+                    Clicked="OnGenerateQRCodeClicked"
+                    BackgroundColor="Blue"
+                    TextColor="White"
+                    CornerRadius="25"
+                    HeightRequest="50"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalOptions="Center"
+                    WidthRequest="200"
+                    IsVisible="False"/>
+
+            <Button x:Name="ScanAttendanceButton"
+                    Text="Scan Attenence"
+                    Clicked="OnScanQRCodeButtonClicked"
+                    BackgroundColor="Blue"
+                    TextColor="White"
+                    CornerRadius="25"
+                    HeightRequest="50"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalOptions="Center"
+                    WidthRequest="200"
+                    IsVisible="False"/>
 
         </VerticalStackLayout>
     </ScrollView>

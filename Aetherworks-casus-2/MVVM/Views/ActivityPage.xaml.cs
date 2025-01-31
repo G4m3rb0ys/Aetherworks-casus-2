@@ -7,6 +7,7 @@ public partial class ActivityPage : ContentPage
 {
     private readonly VictuzActivity _activity;
     private readonly LocalDbService _dbService;
+    private readonly bool _isAdmin;
 
     public ActivityPage(VictuzActivity activity, LocalDbService dbService)
     {
@@ -15,6 +16,13 @@ public partial class ActivityPage : ContentPage
 
         _activity = activity;
         _dbService = dbService;
+        _isAdmin = SessionService.LoggedInUser?.IsAdmin ?? false;
+
+        if (_isAdmin)
+        {
+            GenerateQRCodeButton.IsVisible = true;
+            ScanAttendanceButton.IsVisible = true;
+        }
 
         LoadActivityDetailsAsync();
     }
@@ -28,19 +36,8 @@ public partial class ActivityPage : ContentPage
         var location = await _dbService.GetLocation(_activity.LocationId);
         ActivityLocationLabel.Text = $"Location: {location?.Name ?? "Unknown"}";
 
-        if (!string.IsNullOrWhiteSpace(_activity.Picture))
-        {
-            ActivityImage.Source = ImageSource.FromFile(_activity.Picture);
-            ActivityImage.IsVisible = true;
-        }
-        else
-        {
-            ActivityImage.IsVisible = false;
-        }
-
         var participations = await _dbService.GetParticipations(_activity.Id);
         int remainingSpots = _activity.ParticipationLimit - (participations?.Count ?? 0);
-
         if (remainingSpots <= 0)
         {
             ActivityAvailabilityLabel.Text = "This activity is fully booked.";
@@ -59,6 +56,16 @@ public partial class ActivityPage : ContentPage
         }
     }
 
+    private async void OnGenerateQRCodeClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new QRCodeGeneratorPage(_activity.Id.ToString(), "Activity"));
+    }
+
+    private async void OnScanQRCodeButtonClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new QRscanPage(_activity.Id));
+    }
+
 
     private async Task<bool> IsUserSignedUp()
     {
@@ -71,7 +78,7 @@ public partial class ActivityPage : ContentPage
     {
         var participation = new Participation
         {
-            UserId = SessionService.LoggedInUser.Id,
+            UserId = SessionService.LoggedInUser?.Id ?? 0,
             ActivityId = _activity.Id,
             Activity = _activity,
             Attend = false
