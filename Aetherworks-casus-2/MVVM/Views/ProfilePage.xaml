@@ -8,60 +8,73 @@
     <ContentPage.BindingContext>
         <vm:ProfileViewModel/>
     </ContentPage.BindingContext>
-    <VerticalStackLayout Padding="30" Spacing="25">
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="25">
 
-        <Frame BackgroundColor="#FFFFFF" Padding="20" CornerRadius="10">
-            <VerticalStackLayout Spacing="15">
+            <Frame BackgroundColor="#FFFFFF" Padding="20" CornerRadius="10">
+                <VerticalStackLayout Spacing="15">
 
-                <Label Text="Name"
-                       FontAttributes="Bold"
-                       FontSize="16"
-                       TextColor="#212121"/>
-                <Label Text="{Binding Name}"
-                       FontSize="14"
-                       TextColor="#757575"
-                       HorizontalOptions="StartAndExpand"/>
+                    <VerticalStackLayout Padding="20" Spacing="20">
+                        <Image x:Name="ProfilePicture"
+                               HeightRequest="200"
+                               Aspect="AspectFit"
+                               BackgroundColor="LightGray" />
 
-                <Label Text="Username"
-                       FontAttributes="Bold"
-                       FontSize="16"
-                       TextColor="#212121"/>
-                <Label Text="{Binding Username}"
-                       FontSize="14"
-                       TextColor="#757575"
-                       HorizontalOptions="StartAndExpand"/>
+                        <Button Text="Upload Picture" Clicked="OnUploadClicked" />
 
-                <Label Text="Email"
-                       FontAttributes="Bold"
-                       FontSize="16"
-                       TextColor="#212121"/>
-                <Label Text="{Binding Email}"
-                       FontSize="14"
-                       TextColor="#757575"
-                       HorizontalOptions="StartAndExpand"/>
+                        <Button Text="Save Picture" Clicked="OnSaveClicked" IsVisible="False" x:Name="SaveButton" />
+                    </VerticalStackLayout>
 
-                <Label Text="Phone Number"
-                       FontAttributes="Bold"
-                       FontSize="16"
-                       TextColor="#212121"/>
-                <Label Text="{Binding PhoneNumber}"
-                       FontSize="14"
-                       TextColor="#757575"
-                       HorizontalOptions="StartAndExpand"/>
-                <Button 
-                    Text="Qr Code"
-                    WidthRequest="170"
-                    Command="{Binding GenerateQRCodeCommand}"/>
-            </VerticalStackLayout>
-        </Frame>
+                    <Label Text="Name"
+                           FontAttributes="Bold"
+                           FontSize="16"
+                           TextColor="#212121"/>
+                    <Label Text="{Binding Name}"
+                           FontSize="14"
+                           TextColor="#757575"
+                           HorizontalOptions="StartAndExpand"/>
 
-        <Button Text="Log Out"
-                TextColor="White"
-                BackgroundColor="#6A1B9A"
-                FontAttributes="Bold"
-                FontSize="16"
-                CornerRadius="10"
-                HorizontalOptions="FillAndExpand"
-                Clicked="OnLogOutClicked"/>
-    </VerticalStackLayout>
+                    <Label Text="Username"
+                           FontAttributes="Bold"
+                           FontSize="16"
+                           TextColor="#212121"/>
+                    <Label Text="{Binding Username}"
+                           FontSize="14"
+                           TextColor="#757575"
+                           HorizontalOptions="StartAndExpand"/>
+
+                    <Label Text="Email"
+                           FontAttributes="Bold"
+                           FontSize="16"
+                           TextColor="#212121"/>
+                    <Label Text="{Binding Email}"
+                           FontSize="14"
+                           TextColor="#757575"
+                           HorizontalOptions="StartAndExpand"/>
+
+                    <Label Text="Phone Number"
+                           FontAttributes="Bold"
+                           FontSize="16"
+                           TextColor="#212121"/>
+                    <Label Text="{Binding PhoneNumber}"
+                           FontSize="14"
+                           TextColor="#757575"
+                           HorizontalOptions="StartAndExpand"/>
+                    <Button 
+                        Text="Qr Code"
+                        WidthRequest="170"
+                        Command="{Binding GenerateQRCodeCommand}"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Button Text="Log Out"
+                    TextColor="White"
+                    BackgroundColor="#6A1B9A"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    CornerRadius="10"
+                    HorizontalOptions="FillAndExpand"
+                    Clicked="OnLogOutClicked"/>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
