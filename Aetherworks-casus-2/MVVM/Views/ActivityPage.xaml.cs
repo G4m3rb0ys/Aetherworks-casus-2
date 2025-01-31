@@ -21,6 +21,7 @@ public partial class ActivityPage : ContentPage
         if (_isAdmin)
         {
             GenerateQRCodeButton.IsVisible = true;
+            ScanAttendanceButton.IsVisible = true;
         }
 
         LoadActivityDetailsAsync();
@@ -49,6 +50,11 @@ public partial class ActivityPage : ContentPage
     private async void OnGenerateQRCodeClicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new QRCodeGeneratorPage(_activity.Id.ToString(), "Activity"));
+    }
+
+    private async void OnScanQRCodeButtonClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new QRscanPage(_activity.Id));
     }
 
     private async void OnSignUpButtonClicked(object sender, EventArgs e)

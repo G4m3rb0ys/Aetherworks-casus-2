@@ -54,10 +54,5 @@ namespace Aetherworks_casus_2.MVVM.Views
         {
             Navigation.PushAsync(new NotificationsPage());
         }
-
-        private void NavigateToQRScanPage(object sender, EventArgs e)
-        {
-            Application.Current.MainPage = new QRscanPage();
-        }
     }
 }

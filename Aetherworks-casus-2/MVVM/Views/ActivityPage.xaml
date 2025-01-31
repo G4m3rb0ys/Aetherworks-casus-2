@@ -103,6 +103,19 @@
                     WidthRequest="200"
                     IsVisible="False"/>
 
+            <Button x:Name="ScanAttendanceButton"
+                    Text="Scan Attenence"
+                    Clicked="OnScanQRCodeButtonClicked"
+                    BackgroundColor="Blue"
+                    TextColor="White"
+                    CornerRadius="25"
+                    HeightRequest="50"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalOptions="Center"
+                    WidthRequest="200"
+                    IsVisible="False"/>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

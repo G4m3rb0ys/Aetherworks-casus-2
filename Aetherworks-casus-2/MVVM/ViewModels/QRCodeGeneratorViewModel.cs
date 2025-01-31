@@ -26,7 +26,7 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
             GenerateQRCode();
         }
 
-        private void GenerateQRCode()
+        private string GenerateQRCode()
         {
             if (!string.IsNullOrWhiteSpace(Id))
             {
@@ -44,8 +44,10 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
                 // Use JSON format for QR data
                 var qrData = $"{Id}";
                 var result = writer.Write(qrData);
-                QrCodeImage = PixelDataToImageSource(result);
+                QrCodeImage = PixelDataToImageSource(result);                
             }
+
+            return Id;
         }
 
         private ImageSource PixelDataToImageSource(ZXing.Rendering.PixelData pixelData)
