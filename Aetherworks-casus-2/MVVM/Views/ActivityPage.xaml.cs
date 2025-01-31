@@ -73,11 +73,14 @@ public partial class ActivityPage : ContentPage
         {
             UserId = SessionService.LoggedInUser.Id,
             ActivityId = _activity.Id,
+            Activity = _activity,
             Attend = false
         };
 
         await _dbService.AddOrUpdateParticipation(participation);
         await _dbService.AddOrUpdateActivity(_activity);
+
+        participation.CreateNotifications();
 
         await DisplayAlert("Signed Up", "You have successfully signed up for this activity!", "OK");
 

@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using Aetherworks_casus_2.MVVM.ViewModels;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +21,13 @@ namespace Aetherworks_casus_2.MVVM.Models
         [Column("ActivityId")]
         public int ActivityId { get; set; }
         [Ignore]
-        public VictuzActivity? Activities { get; set; }
+        public VictuzActivity? Activity { get; set; }
         [Column("Attend")]
         public bool Attend { get; set; }
+
+        public void CreateNotifications()
+        {
+            new NotificationsViewModel().CreateScheduledActivityReminder(Activity);
+        }
     }
 }
