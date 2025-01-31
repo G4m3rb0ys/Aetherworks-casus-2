@@ -120,7 +120,20 @@
                            FontSize="18"
                            HorizontalOptions="Center"
                            TextColor="Black" />
-                    
+
+                    <Button x:Name="ScanEventButton"
+                            Text="Scan Event"
+                            Clicked="OnScanTapped"
+                            BackgroundColor="Blue"
+                            TextColor="White"
+                            CornerRadius="25"
+                            HeightRequest="50"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            HorizontalOptions="Center"
+                            WidthRequest="200"
+                            IsVisible="True"/>
+
 
                     <!-- All Activities -->
                     <CollectionView ItemsSource="{Binding Activities}">

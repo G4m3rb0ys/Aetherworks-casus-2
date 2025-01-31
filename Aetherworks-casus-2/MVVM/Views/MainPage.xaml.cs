@@ -10,6 +10,7 @@ namespace Aetherworks_casus_2.MVVM.Views
     {
         private bool _isMenuOpen = false;
         private readonly LocalDbService _dbService;
+        private readonly bool _isAdmin;
 
         public ObservableCollection<VictuzActivity> Activities { get; set; }
         public VictuzActivity FirstActivity { get; set; }
@@ -21,6 +22,13 @@ namespace Aetherworks_casus_2.MVVM.Views
             _dbService = new LocalDbService();
             Activities = new ObservableCollection<VictuzActivity>();
             BindingContext = this;
+
+            _isAdmin = SessionService.LoggedInUser?.IsAdmin ?? false;
+
+            if (_isAdmin)
+            {
+                ScanEventButton.IsVisible = false;
+            }
 
             LoadActivities();
         }
@@ -37,6 +45,11 @@ namespace Aetherworks_casus_2.MVVM.Views
                     Activities.Add(activity);
                 }
             }
+        }
+
+        private async void OnScanTapped(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new QRscanPage());
         }
 
         private async void OnHamburgerTapped(object sender, EventArgs e)
