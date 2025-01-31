@@ -3,6 +3,7 @@ using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
 using Aetherworks_casus_2.Data;
 using Aetherworks_casus_2.MVVM.Models;
+using Aetherworks_casus_2.MVVM.ViewModels;
 
 namespace Aetherworks_casus_2.MVVM.Views
 {
@@ -20,7 +21,7 @@ namespace Aetherworks_casus_2.MVVM.Views
             InitializeComponent();
             _dbService = new LocalDbService();
             Activities = new ObservableCollection<VictuzActivity>();
-            BindingContext = this;
+            BindingContext = new MainViewModel(new LocalDbService());
 
             LoadActivities();
         }
