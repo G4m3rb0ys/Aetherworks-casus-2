@@ -22,7 +22,7 @@ namespace Aetherworks_casus_2.MVVM.Views
             _dbService = new LocalDbService();
             Activities = new ObservableCollection<VictuzActivity>();
             BindingContext = this;
-
+            ToggleShake();
             _isAdmin = SessionService.LoggedInUser?.IsAdmin ?? false;
 
             if (_isAdmin)
@@ -66,6 +66,25 @@ namespace Aetherworks_casus_2.MVVM.Views
         private void OnBellTapped(object sender, TappedEventArgs e)
         {
             Navigation.PushAsync(new NotificationsPage());
+        }
+
+        private void ToggleShake()
+        {
+            if (Accelerometer.Default.IsSupported)
+            {
+                if (!Accelerometer.Default.IsMonitoring)
+                {
+                    // Turn on accelerometer
+                    Accelerometer.Default.ShakeDetected += Accelerometer_ShakeDetected;
+                    Accelerometer.Default.Start(SensorSpeed.Game);
+                }
+            }
+        }
+
+        private void Accelerometer_ShakeDetected(object sender, EventArgs e)
+        {
+            MainContainer.BackgroundColor = new Color(Random.Shared.Next(256), Random.Shared.Next(256), Random.Shared.Next(256));
+            BackgroundColor = new Color(Random.Shared.Next(256), Random.Shared.Next(256), Random.Shared.Next(256));
         }
     }
 }
