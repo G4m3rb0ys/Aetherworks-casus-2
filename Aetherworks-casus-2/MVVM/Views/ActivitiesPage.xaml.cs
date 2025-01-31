@@ -34,7 +34,11 @@ namespace Aetherworks_casus_2.MVVM.Views
         private async Task LoadActivitiesAsync()
         {
             var dbActivities = await _localDbService.GetAllActivities();
-            _allActivities = dbActivities.ToList();
+
+            _allActivities = dbActivities
+                .Where(a => a.ActivityDate >= DateTime.UtcNow) 
+                .OrderBy(a => a.ActivityDate) 
+                .ToList();
 
             Activities.Clear();
             foreach (var act in _allActivities)
@@ -44,6 +48,7 @@ namespace Aetherworks_casus_2.MVVM.Views
 
             ActivitiesCollectionView.ItemsSource = Activities;
         }
+
 
         private async void OnCreateActivityTapped(object sender, EventArgs e)
         {
@@ -60,8 +65,9 @@ namespace Aetherworks_casus_2.MVVM.Views
             var keyword = e.NewTextValue?.ToLower() ?? string.Empty;
 
             var filtered = _allActivities
-                .Where(a => a.Name != null && a.Name.ToLower().Contains(keyword))
+                .Where(a => a.ActivityDate >= DateTime.UtcNow && a.Name != null && a.Name.ToLower().Contains(keyword))
                 .ToList();
+
 
             Activities.Clear();
             foreach (var act in filtered)
