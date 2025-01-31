@@ -120,6 +120,7 @@
                            FontSize="18"
                            HorizontalOptions="Center"
                            TextColor="Black" />
+                    
 
                     <!-- All Activities -->
                     <CollectionView ItemsSource="{Binding Activities}">
