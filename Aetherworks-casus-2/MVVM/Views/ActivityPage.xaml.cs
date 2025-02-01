@@ -113,5 +113,8 @@ public partial class ActivityPage : ContentPage
         }
     }
 
-
+    private async void OnBackClicked(object sender, EventArgs e)
+    {
+        await Application.Current.MainPage.Navigation.PushAsync(new ActivitiesPage());
+    }
 }

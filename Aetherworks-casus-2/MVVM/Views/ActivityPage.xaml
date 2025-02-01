@@ -7,6 +7,12 @@
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
 
+            <Button 
+                Text="Back"
+                HorizontalOptions="Start"
+                WidthRequest="80"
+                Clicked="OnBackClicked"/>
+            
             <!-- Activity Name -->
             <Frame BackgroundColor="#2196F3"
                    CornerRadius="10"
