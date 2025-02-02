@@ -21,7 +21,7 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
         [ObservableProperty]
         private string type;
 
-        private readonly int _currentActivityId;
+        private int _currentActivityId;
 
         public QRscanViewModel(LocalDbService dbService, string id, string type, int currentActivityId)
         {
@@ -34,12 +34,6 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
         [RelayCommand]
         public async Task ProcessScannedQRCode(string scannedId)
         {
-            if (!SessionService.IsUserLoggedIn)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", "You need to be logged in.", "OK");
-                return;
-            }
-
             var user = SessionService.LoggedInUser;
             if (user == null)
             {
@@ -50,14 +44,20 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
             if (int.TryParse(scannedId, out int parsedId))
             {
                 // Case 1: Admin scanning a user QR code at an activity
-                if (user.IsAdmin)
+                if (user.IsAdmin && _currentActivityId != 0)
                 {
                     await MarkUserAsAttended(parsedId, _currentActivityId);
                 }
-                // Case 2: A user scanning an activity QR code to mark their own attendance
-                else
+                // Case 2: A user scanning an activity QR code from ActivityPage
+                else if (!user.IsAdmin && _currentActivityId == 0)
                 {
                     await MarkSelfAsAttended(user.Id, parsedId);
+                }
+                // Case 3: A user scanning an activity QR code from MainPage
+                else if (!user.IsAdmin && _currentActivityId == 0)
+                {
+                    _currentActivityId = parsedId; // Use scanned activity ID
+                    await MarkSelfAsAttended(user.Id, _currentActivityId);
                 }
             }
             else
@@ -69,36 +69,52 @@ namespace Aetherworks_casus_2.MVVM.ViewModels
         private async Task MarkUserAsAttended(int userId, int activityId)
         {
             var participation = await _dbService.GetParticipations(activityId);
-
             var userParticipation = participation.FirstOrDefault(p => p.UserId == userId);
 
             if (userParticipation != null)
             {
                 userParticipation.Attend = true;
-                await _dbService.AddOrUpdateParticipation(userParticipation);
+                _dbService.AddOrUpdateParticipation(userParticipation);
+
+                Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500));
+
                 await Application.Current.MainPage.DisplayAlert("Attendance Marked", $"User {userId} marked as attended for Activity {activityId}.", "OK");
+
+                Application.Current.MainPage.Navigation.PopAsync();
             }
             else
             {
+                Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500));
+
                 await Application.Current.MainPage.DisplayAlert("Error", "User is not registered for this activity.", "OK");
+
+                Application.Current.MainPage.Navigation.PopAsync();
             }
         }
 
         private async Task MarkSelfAsAttended(int userId, int activityId)
         {
             var participation = await _dbService.GetParticipations(activityId);
-
             var selfParticipation = participation.FirstOrDefault(p => p.UserId == userId);
 
             if (selfParticipation != null)
             {
                 selfParticipation.Attend = true;
-                await _dbService.AddOrUpdateParticipation(selfParticipation);
-                await Application.Current.MainPage.DisplayAlert("Attendance Confirmed", "You have been marked as attended.", "OK");
+                _dbService.AddOrUpdateParticipation(selfParticipation);
+
+                Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500));
+
+                Application.Current.MainPage.DisplayAlert("Attendance Confirmed", "You have been marked as attended.", "OK");
+
+                Application.Current.MainPage.Navigation.PopAsync();
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "You are not registered for this activity.", "OK");
+                Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500));
+
+                Application.Current.MainPage.DisplayAlert("Error", "You are not registered for this activity.", "OK");
+
+                Application.Current.MainPage.Navigation.PopAsync();
             }
         }
     }

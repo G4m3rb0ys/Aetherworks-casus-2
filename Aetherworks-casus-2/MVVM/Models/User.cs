@@ -29,6 +29,8 @@ namespace Aetherworks_casus_2.MVVM.Models
         public string? PhoneNumber { get; set; }
         [Column("Password")]
         public string? Password { get; set; }
+        [Column("ProfilePicture")]
+        public Byte[]? ProfilePicture { get; set; }
         [Ignore]
         public List<Participation>? Participations { get; set; }
         [Ignore]
@@ -37,5 +39,10 @@ namespace Aetherworks_casus_2.MVVM.Models
         public List<Suggestion>? Suggestions { get; set; }
         [Ignore]
         public List<Penalty>? Penalties { get; set; } 
+
+        public void ChangeProfilePicture()
+        {
+
+        }
     }
 }
