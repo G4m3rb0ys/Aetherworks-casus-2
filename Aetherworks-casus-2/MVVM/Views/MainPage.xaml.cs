@@ -15,12 +15,13 @@ namespace Aetherworks_casus_2.MVVM.Views
 
         public ObservableCollection<VictuzActivity> Activities { get; set; }
         public VictuzActivity FirstActivity { get; set; }
-        public bool HasUpcomingActivity => FirstActivity != null;
+        public bool HasUpcomingActivity { get; set; }
 
         public MainPage()
         {
             InitializeComponent();
             _dbService = new LocalDbService();
+            FirstActivity = Activities.OrderBy(a => a.ActivityDate).FirstOrDefault();
             Activities = new ObservableCollection<VictuzActivity>();
             BindingContext = this;
             ToggleShake();
@@ -39,11 +40,16 @@ namespace Aetherworks_casus_2.MVVM.Views
             var activities = await _dbService.GetAllActivities();
             if (activities.Any())
             {
-                FirstActivity = activities.OrderBy(a => a.ActivityDate).FirstOrDefault();
+                HasUpcomingActivity = FirstActivity != null;
+                int x = 0;
                 Activities.Clear();
                 foreach (var activity in activities)
                 {
-                    Activities.Add(activity);
+                    if (x != 3 && activity.ActivityDate >= DateTime.Now)
+                    {
+                        Activities.Add(activity);
+                        x++;
+                    }
                 }
             }
         }
