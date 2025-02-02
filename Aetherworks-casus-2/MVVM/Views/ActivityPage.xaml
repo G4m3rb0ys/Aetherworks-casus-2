@@ -3,16 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Aetherworks_casus_2.MVVM.Views.ActivityPage"
              Title="Activity Details"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="True">
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
 
-            <Button 
-                Text="Back"
-                HorizontalOptions="Start"
-                WidthRequest="80"
-                Clicked="OnBackClicked"/>
-            
             <!-- Activity Name -->
             <Frame BackgroundColor="#2196F3"
                CornerRadius="10"
