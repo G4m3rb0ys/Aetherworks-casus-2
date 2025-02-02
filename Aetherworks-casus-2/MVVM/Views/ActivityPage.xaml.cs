@@ -36,6 +36,16 @@ public partial class ActivityPage : ContentPage
         var location = await _dbService.GetLocation(_activity.LocationId);
         ActivityLocationLabel.Text = $"Location: {location?.Name ?? "Unknown"}";
 
+        if (!string.IsNullOrWhiteSpace(_activity.Picture))
+        {
+            ActivityImage.Source = ImageSource.FromFile(_activity.Picture);
+            ActivityImage.IsVisible = true;
+        }
+        else
+        {
+            ActivityImage.IsVisible = false;
+        }
+
         var participations = await _dbService.GetParticipations(_activity.Id);
         int remainingSpots = _activity.ParticipationLimit - (participations?.Count ?? 0);
         if (remainingSpots <= 0)
@@ -43,18 +53,18 @@ public partial class ActivityPage : ContentPage
             ActivityAvailabilityLabel.Text = "This activity is fully booked.";
             ActivityAvailabilityLabel.TextColor = Colors.Red;
             SignUpButton.IsEnabled = false;
-            SignOutButton.IsVisible = false;
         }
         else
         {
             ActivityAvailabilityLabel.Text = $"{remainingSpots} spots left.";
             ActivityAvailabilityLabel.TextColor = Colors.Green;
-
-            bool userSignedUp = await IsUserSignedUp();
-            SignUpButton.IsVisible = !userSignedUp;
-            SignOutButton.IsVisible = userSignedUp;
         }
+
+        bool userSignedUp = await IsUserSignedUp();
+        SignUpButton.IsVisible = !userSignedUp;
+        SignOutButton.IsVisible = userSignedUp;
     }
+
 
     private async void OnGenerateQRCodeClicked(object sender, EventArgs e)
     {
