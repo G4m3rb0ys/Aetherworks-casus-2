@@ -4,27 +4,13 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:Aetherworks_casus_2.MVVM.Models"
+    xmlns:vm="clr-namespace:Aetherworks_casus_2.MVVM.ViewModels" 
     Title="Main Page"
     BackgroundColor="#ADD8E6"
     NavigationPage.HasNavigationBar="False">
 
-    <Grid>
 
-        <!-- Side Menu -->
-        <Grid x:Name="SideMenu"
-              ZIndex="1"
-              WidthRequest="220"
-              BackgroundColor="LightGray"
-              Padding="20"
-              HorizontalOptions="Start"
-              VerticalOptions="FillAndExpand"
-              IsVisible="False">
-            <VerticalStackLayout Spacing="20">
-                <Label Text="Menu 1" FontAttributes="Bold" TextColor="Black" />
-                <Label Text="Menu 2" FontAttributes="Bold" TextColor="Black" />
-                <Label Text="Menu 3" FontAttributes="Bold" TextColor="Black" />
-            </VerticalStackLayout>
-        </Grid>
+    <Grid>
 
         <!-- Main Content -->
         <Grid x:Name="MainContainer"
@@ -46,14 +32,6 @@
                     <ColumnDefinition Width="50*" />
                     <ColumnDefinition Width="25*" />
                 </Grid.ColumnDefinitions>
-                <Image Source="menu_icon.png"
-                       HorizontalOptions="Start"
-                       VerticalOptions="Center"
-                       Grid.Column="0">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnHamburgerTapped" />
-                    </Image.GestureRecognizers>
-                </Image>
                 <Label Text="Mijn App"
                        HorizontalOptions="CenterAndExpand"
                        VerticalOptions="Center"
@@ -63,7 +41,6 @@
                        Grid.Column="1"/>
 
                 <Grid Grid.Column="2">
-
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="50*" />
                         <ColumnDefinition Width="50*" />
@@ -77,6 +54,7 @@
                             <TapGestureRecognizer Tapped="OnProfileTapped" />
                         </Image.GestureRecognizers>
                     </Image>
+
                     <Image Source="bell_icon.png"
                            HorizontalOptions="End"
                            VerticalOptions="Center"
@@ -87,7 +65,6 @@
                         </Image.GestureRecognizers>
                     </Image>
                 </Grid>
-
             </Grid>
 
             <!-- Activity List -->
@@ -99,7 +76,7 @@
                            HorizontalOptions="Center"
                            TextColor="Black" />
 
-                    <!-- First Upcoming Activity -->
+                    <!-- First Upcoming Activity (klikbaar) -->
                     <Frame BorderColor="Gray" Padding="10" BackgroundColor="Red" IsVisible="{Binding HasUpcomingActivity}">
                         <VerticalStackLayout>
                             <Label Text="{Binding FirstActivity.Name}"
@@ -113,6 +90,9 @@
                                    FontSize="13"
                                    TextColor="Black" />
                         </VerticalStackLayout>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenActivityCommand}" CommandParameter="{Binding FirstActivity}" />
+                        </Frame.GestureRecognizers>
                     </Frame>
 
                     <Label Text="Komende activiteiten"
@@ -135,35 +115,36 @@
                             IsVisible="True"/>
 
 
-                    <!-- All Activities -->
+                    <!-- Volgende drie activiteiten -->
                     <CollectionView ItemsSource="{Binding Activities}">
-
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:VictuzActivity">
                                 <Frame BorderColor="LightGray" Padding="10" Margin="0,5" BackgroundColor="Red">
                                     <VerticalStackLayout>
                                         <Label Text="{Binding Name}"
-                                            FontAttributes="Bold" 
-                                            FontSize="16"
-                                             TextColor="Black" />
+                                               FontAttributes="Bold" 
+                                               FontSize="16"
+                                               TextColor="Black" />
                                         <Label Text="{Binding ActivityDate, StringFormat='{0:dd MMM yyyy HH:mm}'}"
-                           FontSize="13"
-                           TextColor="Black" />
+                                               FontSize="13"
+                                               TextColor="Black" />
                                         <Label Text="{Binding Description}"
-                           FontSize="13"
-                           TextColor="Black" />
+                                               FontSize="13"
+                                               TextColor="Black" />
                                     </VerticalStackLayout>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.OpenActivityCommand, Source={x:Reference MainContainer}}" CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
                                 </Frame>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                         <CollectionView.EmptyView>
                             <Label Text="Geen activiteiten."
-                                  HorizontalOptions="Center" 
-                                  VerticalOptions="CenterAndExpand"
-                                  TextColor="Black" />
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="CenterAndExpand"
+                                   TextColor="Black" />
                         </CollectionView.EmptyView>
                     </CollectionView>
-
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>

@@ -15,59 +15,62 @@
             
             <!-- Activity Name -->
             <Frame BackgroundColor="#2196F3"
-                   CornerRadius="10"
-                   Padding="15">
+               CornerRadius="10"
+               Padding="15">
                 <Label x:Name="ActivityNameLabel"
-                       FontSize="24"
-                       FontAttributes="Bold"
-                       TextColor="White"
-                       HorizontalOptions="Center" />
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
             </Frame>
 
-            <!-- Activity Image -->
+            <!-- Activity Image (Boven Details) -->
             <Image x:Name="ActivityImage"
-                   HeightRequest="200"
-                   Aspect="AspectFill"
-                   IsVisible="False"
-                   Margin="0,10,0,10" />
+               HeightRequest="250"
+               Aspect="AspectFill"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               IsVisible="False"
+               Margin="0,10,0,10" />
 
             <!-- Activity Details -->
             <Frame BackgroundColor="White"
-                   CornerRadius="10"
-                   BorderColor="#D3D3D3"
-                   Padding="15">
+               CornerRadius="10"
+               BorderColor="#D3D3D3"
+               Padding="15">
                 <VerticalStackLayout Spacing="10">
                     <HorizontalStackLayout>
                         <Label Text="Date &amp; Time:"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               TextColor="#555555" />
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#555555" />
                         <Label x:Name="ActivityDateTimeLabel"
-                               FontSize="16"
-                               TextColor="Black" />
+                           FontSize="16"
+                           TextColor="Black" />
                     </HorizontalStackLayout>
 
                     <HorizontalStackLayout>
                         <Label Text="Location:"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               TextColor="#555555" />
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#555555" />
                         <Label x:Name="ActivityLocationLabel"
-                               FontSize="16"
-                               TextColor="Black" />
+                           FontSize="16"
+                           TextColor="Black" />
                     </HorizontalStackLayout>
 
                     <HorizontalStackLayout>
                         <Label Text="Description:"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               TextColor="#555555" />
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#555555" />
                         <Label x:Name="ActivityDescriptionLabel"
-                               FontSize="14"
-                               TextColor="#555555" />
+                           FontSize="14"
+                           TextColor="#555555" />
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
             </Frame>
+
 
             <!-- Availability -->
             <Frame BackgroundColor="#E3F2FD"

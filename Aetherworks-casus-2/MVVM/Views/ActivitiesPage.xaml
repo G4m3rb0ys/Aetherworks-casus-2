@@ -66,9 +66,9 @@
         </Grid>
 
         <CollectionView x:Name="ActivitiesCollectionView"
-                        Grid.Row="1"
-                        ItemsSource="{Binding Activities}"
-                        EmptyView="Geen activiteiten gevonden.">
+                Grid.Row="1"
+                ItemsSource="{Binding Activities}"
+                EmptyView="Geen activiteiten gevonden.">
 
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Span="2" Orientation="Vertical" />
@@ -77,20 +77,26 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:VictuzActivity">
                     <Frame Margin="10"
-                           BackgroundColor="Red"
-                           BorderColor="Black"
-                           Padding="10">
+                   BackgroundColor="Red"
+                   BorderColor="Black"
+                   Padding="10">
                         <VerticalStackLayout>
+                            <Image Source="{Binding Picture}"
+                           HeightRequest="150"
+                           Aspect="AspectFill"
+                           IsVisible="{Binding HasPicture}" 
+                           Margin="0,5,0,5"/>
+
                             <Label Text="{Binding Name}"
-                                   FontAttributes="Bold"
-                                   TextColor="Black"
-                                   FontSize="16" />
+                           FontAttributes="Bold"
+                           TextColor="Black"
+                           FontSize="16" />
                             <Label Text="{Binding ActivityDate, StringFormat='{0:dd MMM yyyy HH:mm}'}"
-                                   FontSize="13"
-                                   TextColor="Black" />
+                           FontSize="13"
+                           TextColor="Black" />
                             <Label Text="{Binding Description}"
-                                   FontSize="13"
-                                   TextColor="Black" />
+                           FontSize="13"
+                           TextColor="Black" />
                         </VerticalStackLayout>
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnActivityTapped" />
@@ -99,6 +105,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
 
     </Grid>
 </ContentPage>

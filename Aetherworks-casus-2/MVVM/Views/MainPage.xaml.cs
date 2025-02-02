@@ -3,6 +3,7 @@ using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
 using Aetherworks_casus_2.Data;
 using Aetherworks_casus_2.MVVM.Models;
+using Aetherworks_casus_2.MVVM.ViewModels;
 
 namespace Aetherworks_casus_2.MVVM.Views
 {
@@ -68,6 +69,14 @@ namespace Aetherworks_casus_2.MVVM.Views
             Navigation.PushAsync(new NotificationsPage());
         }
 
+        private async void OnActivityTapped(object sender, EventArgs e)
+        {
+            var activity = (sender as Frame)?.BindingContext as VictuzActivity;
+            if (activity != null)
+            {
+                await Navigation.PushAsync(new ActivityPage(activity, _dbService));
+            }
+        }
         private void ToggleShake()
         {
             if (Accelerometer.Default.IsSupported)
